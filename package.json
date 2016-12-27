@@ -4,6 +4,7 @@
     "description": "open html file in browser",
     "version": "0.0.1",
     "publisher": "techer",
+    "repository": "https://github.com/SudoKillMe/vscode-extensions-open-in-browser",
     "engines": {
         "vscode": "^1.5.0"
     },
@@ -11,13 +12,13 @@
         "Other"
     ],
     "activationEvents": [
-        "onCommand:extension.sayHello"
+        "onCommand:extension.openInBrowser"
     ],
     "main": "./extension",
     "contributes": {
         "commands": [{
-            "command": "extension.sayHello",
-            "title": "Hello World"
+            "command": "extension.openInBrowser",
+            "title": "open in browser"
         }]
     },
     "scripts": {

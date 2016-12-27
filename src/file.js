@@ -5,43 +5,33 @@ var exec = require('child_process').exec;
 class File {
 
     constructor ( activeTextEditor ) {
-
         this.activeTextEditor = activeTextEditor;
-
     }
 
     isFocused () {
-
         return !!(this.activeTextEditor);
-
     }
 
     isHtml () {
-
         return this.activeTextEditor.document.languageId == 'html';
-
     }
 
     filePath () {
 
-        let uri = this.activeTextEditor.document.uri;
-        
+        let uri = this.activeTextEditor.document.uri;       
         return 'file://' + uri.fsPath; 
 
     }
 
     open () {
 
-        if ( !this.isFocused ) {
-
-            vscode.window.showInformationMessage('please open a html file!');
-            return;
-
-        }
+        if ( !this.isFocused ) return;
 
         let filePath = this.filePath();
 
-        if ( !this.isHtml(filePath) ) return;
+        if ( !this.isHtml(filePath) ) {
+            vscode.window.showInformationMessage('please open a html file!');
+        }
 
         let platform = process.platform; 
         this.openFile(platform, filePath);
@@ -56,7 +46,7 @@ class File {
                 cmd = `start "" "${path}"`;
                 break;
             case 'darwin':
-                cmd = `start "" "${path}"`;
+                cmd = `open "${path}"`;
                 break;
             default:
                 cmd = `firefox "${path}"`;
