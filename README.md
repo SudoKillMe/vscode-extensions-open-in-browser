@@ -3,21 +3,21 @@
 Open HTML file in default browser
 
 
-## usage
+## USAGE
 
-`cmd + shift + p` on MacOS or `ctrl + shift + p` on Windows, and enter `open in browser`.
+1, open command panel(`cmd + shift + p` on MacOS or `ctrl + shift + p` on Windows)
+2, enter `open in browser`.
 
-## support
+## SUPPORT
 
 MacOS, Linux(firefox), Windows 
 
-## Known Issues
+## PLAN
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
+`shortcut`, `more browser` will be SUPPORTED!
 
 ### 0.0.1
 
-first commit
+BASIC SUPPORT...
 
 -----------------------------------------------------------------------------------------------------------
