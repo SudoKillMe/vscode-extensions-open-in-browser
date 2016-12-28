@@ -13,7 +13,7 @@ function isHtml () {
 function filePath ( file ) {
     if (!file) {
         let uri = vscode.window.activeTextEditor.document.uri;
-        return uri;
+        return 'file://' + uri.fsPath;
     }
 
     return 'file://' + file;
