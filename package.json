@@ -1,8 +1,9 @@
 {
     "name": "open-in-browser",
     "displayName": "open in browser",
-    "description": "open html file in browser",
-    "version": "0.0.1",
+    "description": "This allows you to open the current file in your default browser or application.",
+    "icon": "images/icon.png",
+    "version": "0.0.2",
     "publisher": "techer",
     "repository": "https://github.com/SudoKillMe/vscode-extensions-open-in-browser",
     "engines": {
@@ -10,6 +11,9 @@
     },
     "categories": [
         "Other"
+    ],
+    "keywords": [
+        "open", "html", "browser"
     ],
     "activationEvents": [
         "onCommand:extension.openInBrowser"
@@ -19,6 +23,10 @@
         "commands": [{
             "command": "extension.openInBrowser",
             "title": "open in browser"
+        }],
+        "keybindings": [{
+            "command": "extension.openInBrowser",
+            "key": "Alt+B"
         }]
     },
     "scripts": {

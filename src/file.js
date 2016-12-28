@@ -49,7 +49,7 @@ class File {
                 cmd = `open "${path}"`;
                 break;
             default:
-                cmd = `firefox "${path}"`;
+                cmd = `xdg-open "${path}"`;
                 break;
             }
 
