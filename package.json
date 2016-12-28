@@ -16,18 +16,30 @@
         "open", "html", "browser"
     ],
     "activationEvents": [
-        "onCommand:extension.openInBrowser"
+        "onCommand:extension.openInBrowser",
+        "onCommand:extension.openInBrowserFromMenu"
     ],
     "main": "./extension",
     "contributes": {
         "commands": [{
             "command": "extension.openInBrowser",
-            "title": "open in browser"
+            "title": "Open In Browser"
+        },
+        {
+            "command": "extension.openInBrowserFromMenu",
+            "title": "Open File In Browser"
         }],
         "keybindings": [{
             "command": "extension.openInBrowser",
             "key": "Alt+B"
-        }]
+        }],
+        "menus": {
+            "explorer/context": [{
+                "when": "resourceLangId == html",
+                "command": "extension.openInBrowserFromMenu",
+                "group": "open-in-browser"
+            }]
+        }
     },
     "scripts": {
         "postinstall": "node ./node_modules/vscode/bin/install",
