@@ -11,7 +11,6 @@ function activate(context) {
         open();
     });
     var openFromMenuCommand = vscode.commands.registerCommand('extension.openInBrowserFromMenu', function (fileUrl) {
-        var fileUrl = fileUrl;
         openByMenu(fileUrl.fsPath);
     });
     
