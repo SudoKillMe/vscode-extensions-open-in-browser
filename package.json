@@ -17,7 +17,8 @@
     ],
     "activationEvents": [
         "onCommand:extension.openInBrowser",
-        "onCommand:extension.openInBrowserFromMenu"
+        "onCommand:extension.openInBrowserFromMenu",
+        "onCommand:extension.openInSpecifyBrowser"
     ],
     "main": "./extension",
     "contributes": {
@@ -27,8 +28,23 @@
         },
         {
             "command": "extension.openInBrowserFromMenu",
-            "title": "Open File In Browser"
+            "title": "Open In default Browser"
+        },
+        {
+            "command": "extension.openInSpecifyBrowser",
+            "title": "Open In other Browsers"
         }],
+        "configuration": {
+            "type": "object",
+            "title": "plugin open-in-browser",
+            "properties": {
+                "open-in-browser.default": {
+                    "type": "string",
+                    "default": "",
+                    "description": "Set default browser used by 'open in browser'，acceptable value is: 'gc','google chrome',chrome','谷歌浏览器', which equals to 'google chrome'; 'ff', 'firefox', '火狐浏览器', which equals to 'firefox';if the value is invalid, "
+                }
+            }
+        },
         "keybindings": [{
             "command": "extension.openInBrowser",
             "key": "Alt+B"
@@ -37,6 +53,21 @@
             "explorer/context": [{
                 "when": "resourceLangId == html",
                 "command": "extension.openInBrowserFromMenu",
+                "group": "open-in-browser"
+            },
+            {
+                "when": "resourceLangId == html",
+                "command": "extension.openInSpecifyBrowser",
+                "group": "open-in-browser"
+            }],
+            "editor/context": [{
+                "when": "resourceLangId == html",
+                "command": "extension.openInBrowserFromMenu",
+                "group": "open-in-browser"
+            },
+            {
+                "when": "resourceLangId == html",
+                "command": "extension.openInSpecifyBrowser",
                 "group": "open-in-browser"
             }]
         }

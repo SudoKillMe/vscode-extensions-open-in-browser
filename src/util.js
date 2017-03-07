@@ -1,6 +1,7 @@
-var vscode = require('vscode');
-var path = require('path');
-var exec = require('child_process').exec;
+var vscode = require( 'vscode' );
+var path = require( 'path' );
+var browsers = require( './config' ).acceptBrowsers;
+var exec = require( 'child_process' ).exec;
 
 function isFocused () {
     return !!vscode.window.activeTextEditor;
@@ -19,17 +20,42 @@ function filePath ( file ) {
     return 'file://' + file;
 }
 
-function openFile ( platform, path ) {
+//  if you enter 'ff', this will return 'firefox'
+//  because open command needs a correct browser name
+function getStandardBrowserName ( name ) {
+    // for ( var i in browsers ) {
+    //     if ( browsers[i].indexOf( name ) !== -1 ) {
+    //         return i;
+    //     }
+    // }
+    // return '';
+    var name = name && name.toLowerCase();
+    for ( var i=0, l=browsers.length; i<l; i++ ) {
+
+        if ( browsers[i].acceptName.indexOf( name ) !== -1 ) {
+            return browsers[i].standardName;
+        }
+    }
+    return '';
+}
+
+function openFile ( platform, path, browser ) {
     let cmd;
+    let browserName = getStandardBrowserName( browser );
+    
     switch (platform) {
         case 'win32':
             cmd = `start "" "${path}"`;
             break;
         case 'darwin':
-            cmd = `open "${path}"`;
+            cmd = browserName 
+                ? `open "${path}" -a "${browserName}"`
+                : `open "${path}"`;
             break;
         default:
-            cmd = `xdg-open "${path}"`;
+            cmd = browserName 
+                ? `${browserName} "${path}"`
+                : `xdg-open "${path}"`;
             break;
     }
 
