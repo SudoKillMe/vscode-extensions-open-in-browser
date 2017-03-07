@@ -39,13 +39,28 @@ function getStandardBrowserName ( name ) {
     return '';
 }
 
+function getDefaultBrowser () {
+
+    // user defined browser that open in default
+    let browser = '';
+    let config = vscode.workspace.getConfiguration( 'open-in-browser' );
+
+    if ( config.default ) {
+        browser = config.default;
+    }
+
+    return browser;
+}
+
 function openFile ( platform, path, browser ) {
     let cmd;
     let browserName = getStandardBrowserName( browser );
-    
+    console.log(browserName);
     switch (platform) {
         case 'win32':
-            cmd = `start "" "${path}"`;
+            cmd = browserName
+                ? `start ${browserName} "${path}"`
+                : `start "" "${path}"`;
             break;
         case 'darwin':
             cmd = browserName 
@@ -70,3 +85,4 @@ exports.isFocused = isFocused;
 exports.isHtml = isHtml;
 exports.filePath = filePath;
 exports.openFile = openFile;
+exports.getDefaultBrowser = getDefaultBrowser;

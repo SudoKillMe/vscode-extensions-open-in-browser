@@ -5,6 +5,7 @@ var isFocused = util.isFocused;
 var isHtml = util.isHtml;
 var filePath = util.filePath;
 var openFile = util.openFile;
+var getDefaultBrowser = util.getDefaultBrowser;
 
 function open () {
     
@@ -17,14 +18,7 @@ function open () {
         return;
     }
 
-    // user defined browser that open in default
-    let browser = '';
-    let config = vscode.workspace.getConfiguration( 'open-in-browser' );
-
-    if ( config.default ) {
-        browser = config.default;
-    }
-
+    let browser = getDefaultBrowser();
     let platform = process.platform;
     openFile( platform, path, browser );
 
@@ -33,7 +27,9 @@ function open () {
 function openByMenu ( file ) {
 
     let platform = process.platform;
-    openFile(platform, filePath(file));
+    let browser = getDefaultBrowser();
+
+    openFile(platform, filePath(file), browser);
 }
 
 function openBySpecify ( file ) {

@@ -2,7 +2,7 @@
 var chromeItem = {
     detail: "detail",
     label: "Google Chrome",
-    standardName: "Google Chrome",
+    standardName: process.platform == 'win32' ? 'chrome' : 'Google Chrome',
     acceptName: ['chrome', 'google chrome', 'gc', '谷歌浏览器']
 };
 var firefoxItem = {
@@ -15,8 +15,8 @@ var firefoxItem = {
 var ieItem = {
     detail: "This only works on Windows",
     label: "Microsoft IE",
-    standardName: "IE",
-    acceptName: ['ie']
+    standardName: "IExplore",
+    acceptName: ['ie','iexplore']
 };
 
 var safariItem = {
