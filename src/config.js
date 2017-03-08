@@ -4,27 +4,27 @@ var platform = process.platform;
 var chromeItem = {
     detail: "detail",
     label: "Google Chrome",
-    standardName: platform == 'win32' ? 'chrome' : ( platform == 'darwin'? 'Google Chrome': 'google-chrome'),
+    standardName: platform == 'win32' ? 'chrome' : ( platform == 'darwin'? 'google chrome': 'google-chrome'),
     acceptName: ['chrome', 'google chrome', 'google-chrome', 'gc', '谷歌浏览器']
 };
 var firefoxItem = {
     detail: "detail",
     label: "Mozilla Firefox",
-    standardName: "Firefox",
+    standardName: "firefox",
     acceptName: ['firefox', 'ff', 'mozilla firefox', '火狐浏览器']
 };
 
 var ieItem = {
     detail: "This only works on Windows",
     label: "Microsoft IE",
-    standardName: "IExplore",
+    standardName: "iexplore",
     acceptName: ['ie','iexplore']
 };
 
 var safariItem = {
     detail: "This only works on Mac OS",
     label: "Apple Safari",
-    standardName: "Safari",
+    standardName: "safari",
     acceptName: ['safari']
 } 
 
