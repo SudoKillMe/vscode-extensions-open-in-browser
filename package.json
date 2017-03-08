@@ -41,7 +41,7 @@
                 "open-in-browser.default": {
                     "type": "string",
                     "default": "",
-                    "description": "Set default browser used by 'open in browser'，acceptable value is: 'gc','google chrome',chrome','谷歌浏览器', which equals to 'google chrome'; 'ff', 'firefox', '火狐浏览器', which equals to 'firefox';if the value is invalid, "
+                    "description": "Set default browser"
                 }
             }
         },

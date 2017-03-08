@@ -1,15 +1,17 @@
 
+var platform = process.platform;
+
 var chromeItem = {
     detail: "detail",
     label: "Google Chrome",
-    standardName: process.platform == 'win32' ? 'chrome' : 'Google Chrome',
+    standardName: platform == 'win32' ? 'chrome' : ( platform == 'darwin'? 'Google Chrome': 'google-chrome'),
     acceptName: ['chrome', 'google chrome', 'gc', '谷歌浏览器']
 };
 var firefoxItem = {
     detail: "detail",
     label: "Mozilla Firefox",
     standardName: "Firefox",
-    acceptName: ['firefox', 'ff', 'mozile firefox', '火狐浏览器']
+    acceptName: ['firefox', 'ff', 'mozilla firefox', '火狐浏览器']
 };
 
 var ieItem = {
