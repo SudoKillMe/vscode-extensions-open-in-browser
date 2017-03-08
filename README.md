@@ -12,7 +12,8 @@ if the value is correct and not empty,  when you open the browser directly throu
 For some reason, acceptable browsers are as follows:
 >##### Firefox , Chrome , IE and Safari #####
 
-there is no `opera` because i never used it, if needed, i will add it in the future.array
+there is no `opera` because i never used it, if needed, i will add it in the future.
+
 You do not need to set a very accurate value, only if the value in the array, I will handle it:
 
 chrome browser acceptable values:
@@ -44,6 +45,9 @@ see the demonstration gif:
 
 ![demo](http://oiw7043hi.bkt.clouddn.com/other.gif)
 
+## TIP
+
+I spend a day doing this and I tested on windows, mac os and ubuntu, if you find any bug, let me know, thanks. 
 
 ## SUPPORT
 
