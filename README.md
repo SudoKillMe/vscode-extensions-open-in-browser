@@ -1,17 +1,51 @@
 # Open in Browser
 
-终于，现在，你们可以自由的指定你们想打开的浏览器了！
+Finally, you can open html pages with browsers you specified.
 
-#### 1，加入默认浏览器选项
+Usually, I use Firefox browser for convenience, however, I prefer to use Chrome browser when I debugging my html pages. In previous versions, I can not get it. But now, we can.
+
+####  open-in-browser.default
+
+In this version, I add a "open-in-browser.default" configuration option. You can set the value to the name of your favorite browser. 
+if the value is correct and not empty,  when you open the browser directly through the shortcut keys, it will open the browser that you specified, rather than the system default browser.
+
+For some reason, acceptable browsers are as follows:
+>##### Firefox , Chrome , IE and Safari #####
+there is no `opera` because i never used it, if needed, i will add it in the future.array
+You do not need to set a very accurate value, only if the value in the array, I will handle it:
+>chrome:      [ 'chrome', 'google chrome', 'google-chrome', 'gc', '谷歌浏览器' ]
+>
+>firefox:     [ 'firefox', 'ff', 'mozilla firefox', '火狐浏览器' ]
+>
+>ie:          [ 'ie', 'iexplore' ]
+>
+>safari:      [ 'safari' ]
+
+if you do not know how to do, see the gif below:
+
+![demo](http://oiw7043hi.bkt.clouddn.com/demo.gif)
+
+* * *
+
+####  open in other browsers
+
+This is not enough, now, you can open html pages *in other browsers*.
+when you right click, you may find a new item "`open in other browsers`", if you click it, you will get a browsers list, then you can choose one to open this page.
+
+of course, you can also get it with shortcut `Alt+Shift+B`
+
+see the demonstration gif:
+
+![demo](http://oiw7043hi.bkt.clouddn.com/demo.gif)
 
 有很多时候，我们出于方便，使用一种浏览器，但是，开发调试的时候我们更愿意使用另一种浏览器。
 比如我，我平时使用firefox作为系统的默认浏览器，但是我开发调试的时候更喜欢使用chrome，然而这时我使用open-in-browser时，它打开的是系统的默认浏览器，即firefox。这就很不方便。
 
 为了解决这个问题，我添加了'default'这个配置选项，这个选项将成为'open-in-browser默认打开的浏览器'，也就说，这个值和系统的默认浏览器是不冲突的，我的系统默认是firefox，然而，如果我把default配置成chrome，那么在使用open-in-default的时候，将默认打开chrome！
 
-可选的值也相对比较宽松：
+可选的值也相对比较宽松：    
 
-chrome: [ 'chrome', 'google chrome', 'gc', '谷歌浏览器' ]
+chrome: [ 'chrome', 'google chrome', 'google-chrome', 'gc', '谷歌浏览器' ]
 
 firefox: [ 'firefox', 'ff', 'mozilla firefox', '火狐浏览器' ]
 
