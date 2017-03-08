@@ -24,15 +24,15 @@
     "contributes": {
         "commands": [{
             "command": "extension.openInBrowser",
-            "title": "Open In Browser"
+            "title": "Open In Default Browser"
         },
         {
             "command": "extension.openInBrowserFromMenu",
-            "title": "Open In default Browser"
+            "title": "Open In Default Browser"
         },
         {
             "command": "extension.openInSpecifyBrowser",
-            "title": "Open In other Browsers"
+            "title": "Open In Other Browsers"
         }],
         "configuration": {
             "type": "object",
@@ -48,6 +48,10 @@
         "keybindings": [{
             "command": "extension.openInBrowser",
             "key": "Alt+B"
+        },
+        {
+            "command": "extension.openInSpecifyBrowser",
+            "key": "Alt+Shift+B"
         }],
         "menus": {
             "explorer/context": [{
@@ -62,7 +66,7 @@
             }],
             "editor/context": [{
                 "when": "resourceLangId == html",
-                "command": "extension.openInBrowserFromMenu",
+                "command": "extension.openInBrowser",
                 "group": "open-in-browser"
             },
             {

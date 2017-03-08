@@ -34,11 +34,16 @@ function openByMenu ( file ) {
 
 function openBySpecify ( file ) {
 
+    if ( !file ) {
+        file = filePath();
+    } else {
+        file = filePath( file );
+    }
+
     let platform = process.platform;
     vscode.window.showQuickPick( acceptBrowsers ).then( function ( item ) {
         if ( !item ) return;
-        console.log( item );
-        openFile( platform, filePath( file ), item.standardName );
+        openFile( platform, file, item.standardName );
     } );
 }
 

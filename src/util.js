@@ -23,12 +23,6 @@ function filePath ( file ) {
 //  if you enter 'ff', this will return 'firefox'
 //  because open command needs a correct browser name
 function getStandardBrowserName ( name ) {
-    // for ( var i in browsers ) {
-    //     if ( browsers[i].indexOf( name ) !== -1 ) {
-    //         return i;
-    //     }
-    // }
-    // return '';
     var name = name && name.toLowerCase();
     for ( var i=0, l=browsers.length; i<l; i++ ) {
 
