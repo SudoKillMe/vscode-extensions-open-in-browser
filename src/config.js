@@ -2,13 +2,13 @@
 var platform = process.platform;
 
 var chromeItem = {
-    detail: "detail",
+    detail: "A fast, secure, and free web browser built for the modern web",
     label: "Google Chrome",
     standardName: platform == 'win32' ? 'chrome' : ( platform == 'darwin'? 'google chrome': 'google-chrome'),
     acceptName: ['chrome', 'google chrome', 'google-chrome', 'gc', '谷歌浏览器']
 };
 var firefoxItem = {
-    detail: "detail",
+    detail: "A fast, smart and personal web browser",
     label: "Mozilla Firefox",
     standardName: "firefox",
     acceptName: ['firefox', 'ff', 'mozilla firefox', '火狐浏览器']
