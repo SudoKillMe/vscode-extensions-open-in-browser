@@ -5,7 +5,7 @@ var chromeItem = {
     detail: "detail",
     label: "Google Chrome",
     standardName: platform == 'win32' ? 'chrome' : ( platform == 'darwin'? 'Google Chrome': 'google-chrome'),
-    acceptName: ['chrome', 'google chrome', 'gc', '谷歌浏览器']
+    acceptName: ['chrome', 'google chrome', 'google-chrome', 'gc', '谷歌浏览器']
 };
 var firefoxItem = {
     detail: "detail",
