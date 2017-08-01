@@ -20,8 +20,11 @@ function filePath ( file ) {
     return 'file://' + file;
 }
 
-//  if you enter 'ff', this will return 'firefox'
-//  because open command needs a correct browser name
+/**
+ * convert name to standard name
+ * example: ff => firefox
+ * @param {String} name 
+ */
 function getStandardBrowserName ( name ) {
     var name = name && name.toLowerCase();
     for ( var i=0, l=browsers.length; i<l; i++ ) {
@@ -32,10 +35,10 @@ function getStandardBrowserName ( name ) {
     }
     return '';
 }
-
+/**
+ * get browser that specified in configuration file
+ */
 function getDefaultBrowser () {
-
-    // user defined browser that open in default
     let browser = '';
     let config = vscode.workspace.getConfiguration( 'open-in-browser' );
 
@@ -75,8 +78,10 @@ function openFile ( platform, path, browser ) {
     });
 }
 
-exports.isFocused = isFocused;
-exports.isHtml = isHtml;
-exports.filePath = filePath;
-exports.openFile = openFile;
-exports.getDefaultBrowser = getDefaultBrowser;
+module.exports = {
+    isFocused: isFocused,
+    isHtml: isHtml,
+    filePath: filePath,
+    openFile: openFile,
+    getDefaultBrowser: getDefaultBrowser
+}

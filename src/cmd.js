@@ -47,6 +47,8 @@ function openBySpecify ( file ) {
     } );
 }
 
-exports.open = open;
-exports.openByMenu = openByMenu;
-exports.openBySpecify = openBySpecify;
+module.exports = {
+    open: open,
+    openByMenu: openByMenu,
+    openBySpecify: openBySpecify
+}

@@ -28,13 +28,15 @@ var safariItem = {
     acceptName: ['safari']
 } 
 
+var operaItem = {
+    detail: 'Fast, secure, easy-to-use browser',
+    label: 'Opera',
+    standardName: 'opera',
+    acceptName: ['opera']
+}
+
 var config =  {
-    // "browsersMap": {
-    //     "google chrome": ['chrome', 'google chrome', 'gc', '谷歌浏览器'],
-    //     firefox: ['firefox', 'ff', 'mozile firefox', '火狐浏览器'],
-    //     safari: ['safari'],
-    // },
-    "acceptBrowsers": [ chromeItem, firefoxItem ]
+    "acceptBrowsers": [ chromeItem, firefoxItem, operaItem ]
 };
 
 if ( process.platform == 'win32' ) {
