@@ -1,4 +1,13 @@
+
+
 # Open in Browser
+
+## what's new
+1, Add Opera Support
+
+2, Change Icon
+
+***
 
 Finally, you can open html pages with browsers you specified.
 
@@ -10,9 +19,7 @@ In this version, I add a "open-in-browser.default" configuration option. You can
 if the value is correct and not empty,  when you open the browser directly through the shortcut keys, it will open the browser that you specified, rather than the system default browser.
 
 For some reason, acceptable browsers are as follows:
->##### Firefox , Chrome , IE and Safari #####
-
-there is no `opera` because i never used it, if needed, i will add it in the future.
+>##### Firefox , Chrome , Opera, IE and Safari #####
 
 You do not need to set a very accurate value, only if the value in the array, I will handle it:
 
@@ -27,6 +34,10 @@ ie browser acceptable values:
 
 safari browser acceptable values:
 >   [ 'safari' ]
+
+opera browser acceptable values:
+>   [ 'opera' ]
+
 
 if you do not know how to do, see the gif below:
 
@@ -56,6 +67,12 @@ MacOS, Linux, Windows
 
 ## Release
 
+#### 1.1.1
+add `opera` support
+
+change icon;  beautiful, right?
+
+change Licence
 #### 1.0.0
 add `default browser` configuration option
 
@@ -77,6 +94,6 @@ BASIC SUPPORT...
 
 ## License
 
-WYGIWYW(What you get is what you want) LICENSE
+Apache Licence 2.0
 
 
