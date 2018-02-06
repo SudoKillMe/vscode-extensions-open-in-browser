@@ -3,15 +3,15 @@
 # Open in Browser
 
 ## what's new
-1, Add Opera Support
-
-2, Change Icon
+You can now right click the file in the tab bar to open in browser
 
 ***
 
 Finally, you can open html pages with browsers you specified.
 
 Usually, I use Firefox browser for convenience, however, I prefer to use Chrome browser when I debugging my html pages. In previous versions, I can not get it. But now, we can.
+
+Use the Alt-B shortcut to open in the default browser (see setting information below), or Alt-Shift-B to choose a browser. Alternatively, use right-click context menus in the sidebar, tabbar, or body of an HTML file.
 
 ####  open-in-browser.default
 
@@ -66,6 +66,10 @@ MacOS, Linux, Windows
 
 
 ## Release
+
+#### 1.2.0
+added context menu option to tab bar
+
 
 #### 1.1.1
 add `opera` support
