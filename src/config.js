@@ -7,6 +7,14 @@ var chromeItem = {
     standardName: platform == 'win32' ? 'chrome' : ( platform == 'darwin'? 'google chrome': 'google-chrome'),
     acceptName: ['chrome', 'google chrome', 'google-chrome', 'gc', '谷歌浏览器']
 };
+
+var chromiumItem = {
+    detail: "A fast, secure, and open-source version of the chrome web browser",
+    label: "Chromium",
+    standardName: "chromium",
+    acceptName: ['chromium']
+};
+
 var firefoxItem = {
     detail: "A fast, smart and personal web browser",
     label: "Mozilla Firefox",
@@ -26,17 +34,17 @@ var safariItem = {
     label: "Apple Safari",
     standardName: "safari",
     acceptName: ['safari']
-} 
+}; 
 
 var operaItem = {
     detail: 'Fast, secure, easy-to-use browser',
     label: 'Opera',
     standardName: 'opera',
     acceptName: ['opera']
-}
+};
 
 var config =  {
-    "acceptBrowsers": [ chromeItem, firefoxItem, operaItem ]
+    "acceptBrowsers": [ chromeItem, chromiumItem, firefoxItem, operaItem ]
 };
 
 if ( process.platform == 'win32' ) {
