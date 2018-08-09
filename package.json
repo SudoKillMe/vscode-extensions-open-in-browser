@@ -46,6 +46,11 @@
                     "type": "string",
                     "default": "",
                     "description": "Set default browser"
+                },
+                "open-in-browser.allowedFileTypes": {
+                    "type": "array",
+                    "default": ["html", "markdown", "json", "plaintext"],
+                    "description": "Set the allowed file types list to be open in browser"
                 }
             }
         },

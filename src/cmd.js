@@ -2,7 +2,7 @@ var vscode = require('vscode');
 var util = require('./util');
 var acceptBrowsers = require('./config').acceptBrowsers;
 var isFocused = util.isFocused;
-var isHtml = util.isHtml;
+var isAllowed = util.isAllowed;
 var filePath = util.filePath;
 var openFile = util.openFile;
 var getDefaultBrowser = util.getDefaultBrowser;
@@ -13,8 +13,8 @@ function open () {
     
     let path = filePath();
     
-    if (!isHtml()) {
-        vscode.window.showInformationMessage('[ open-in-browser ]: Sorry, Only HTML File Supported Now ...');
+    if (!isAllowed()) {
+        vscode.window.showInformationMessage('[ open-in-browser ]: Sorry, this file type is not allowed. See your personal settings.');
         return;
     }
 

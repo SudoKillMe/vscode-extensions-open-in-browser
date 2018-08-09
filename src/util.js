@@ -7,8 +7,12 @@ function isFocused () {
     return !!vscode.window.activeTextEditor;
 }
 
-function isHtml () {
-    return vscode.window.activeTextEditor.document.languageId == 'html';
+/**
+ * return true if the current file type is included in the allowedFileTypes list setting, or if the setting is empty.
+ */
+function isAllowed () {
+    var fileTypes = getAllowedFileTypes();
+    return fileTypes.length ? fileTypes.indexOf(vscode.window.activeTextEditor.document.languageId) > -1 : true;
 }
 
 function filePath ( file ) {
@@ -48,11 +52,24 @@ function getDefaultBrowser () {
 
     return browser;
 }
+/**
+ * get allowed file types as specified in configuration file
+ */
+function getAllowedFileTypes(){
+    let allowedFileTypes = [];
+    let config = vscode.workspace.getConfiguration( 'open-in-browser' );
+
+    if ( config.allowedFileTypes ) {
+        allowedFileTypes = config.allowedFileTypes;
+    }
+
+    return allowedFileTypes;
+}
 
 function openFile ( platform, path, browser ) {
     let cmd;
     let browserName = getStandardBrowserName( browser );
-    console.log(browserName);
+    console.log(browser, browserName, path, platform);
     switch (platform) {
         case 'win32':
             cmd = browserName
@@ -80,7 +97,7 @@ function openFile ( platform, path, browser ) {
 
 module.exports = {
     isFocused: isFocused,
-    isHtml: isHtml,
+    isAllowed: isAllowed,
     filePath: filePath,
     openFile: openFile,
     getDefaultBrowser: getDefaultBrowser
