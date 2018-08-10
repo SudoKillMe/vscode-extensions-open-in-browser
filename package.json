@@ -49,7 +49,12 @@
                 },
                 "open-in-browser.allowedFileTypes": {
                     "type": "array",
-                    "default": ["html", "markdown", "json", "plaintext"],
+                    "default": [
+                        "html",
+                        "markdown",
+                        "json",
+                        "plaintext"
+                    ],
                     "description": "Set the allowed file types list to be open in browser"
                 }
             }
@@ -104,15 +109,17 @@
         }
     },
     "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
         "postinstall": "node ./node_modules/vscode/bin/install",
-        "test": "node ./node_modules/vscode/bin/test"
+        "test": "npm run compile && node ./node_modules/vscode/bin/test"
     },
     "devDependencies": {
-        "typescript": "^2.0.3",
-        "vscode": "^1.0.0",
-        "mocha": "^2.3.3",
-        "eslint": "^3.6.0",
-        "@types/node": "^6.0.40",
-        "@types/mocha": "^2.2.32"
+        "typescript": "^2.6.1",
+        "vscode": "^1.1.6",
+        "tslint": "^5.8.0",
+        "@types/node": "^7.0.43",
+        "@types/mocha": "^2.2.42"
     }
 }

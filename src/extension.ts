@@ -1,7 +1,7 @@
 var vscode = require('vscode');
-var open = require('./src/cmd').open;
-var openByMenu = require('./src/cmd').openByMenu;
-var openBySpecify = require('./src/cmd').openBySpecify;
+var open = require('./cmd').open;
+var openByMenu = require('./cmd').openByMenu;
+var openBySpecify = require('./cmd').openBySpecify;
 
 function activate(context) {
 
