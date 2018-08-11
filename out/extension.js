@@ -1,21 +1,16 @@
-"use strict";
-var vscode = require('vscode');
-var open = require('./cmd').open;
-var openByMenu = require('./cmd').openByMenu;
-var openBySpecify = require('./cmd').openBySpecify;
+'use strict';
+Object.defineProperty(exports, "__esModule", { value: true });
+const vscode = require("vscode");
+const index_1 = require("./index");
 function activate(context) {
-    var openCommand = vscode.commands.registerCommand('extension.openInBrowser', function () {
-        open();
+    let openDefaultCommand = vscode.commands.registerCommand('extension.openInDefaultBrowser', (path) => {
+        index_1.openDefault(path);
     });
-    var openFromMenuCommand = vscode.commands.registerCommand('extension.openInBrowserFromMenu', function (fileUrl) {
-        openByMenu(fileUrl.fsPath);
+    let openBySpecifyCommand = vscode.commands.registerCommand('extension.openInSpecifyBrowser', (path) => {
+        index_1.openBySpecify(path);
     });
-    var openFromSpecifyCommand = vscode.commands.registerCommand('extension.openInSpecifyBrowser', function (fileUrl) {
-        openBySpecify(fileUrl.fsPath);
-    });
-    context.subscriptions.push(openCommand);
-    context.subscriptions.push(openFromMenuCommand);
-    context.subscriptions.push(openFromSpecifyCommand);
+    context.subscriptions.push(openDefaultCommand);
+    context.subscriptions.push(openBySpecifyCommand);
 }
 exports.activate = activate;
 function deactivate() {

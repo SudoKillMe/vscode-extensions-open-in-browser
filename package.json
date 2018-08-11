@@ -7,7 +7,7 @@
     "publisher": "techer",
     "repository": "https://github.com/SudoKillMe/vscode-extensions-open-in-browser",
     "engines": {
-        "vscode": "^1.5.0"
+        "vscode": "^1.15.0"
     },
     "categories": [
         "Other"
@@ -18,21 +18,17 @@
         "browser"
     ],
     "activationEvents": [
-        "onCommand:extension.openInBrowser",
-        "onCommand:extension.openInBrowserFromMenu",
+        "onCommand:extension.openInDefaultBrowser",
         "onCommand:extension.openInSpecifyBrowser"
     ],
-    "main": "./extension",
+    "main": "./out/extension",
     "contributes": {
         "commands": [
             {
-                "command": "extension.openInBrowser",
+                "command": "extension.openInDefaultBrowser",
                 "title": "Open In Default Browser"
             },
-            {
-                "command": "extension.openInBrowserFromMenu",
-                "title": "Open In Default Browser"
-            },
+
             {
                 "command": "extension.openInSpecifyBrowser",
                 "title": "Open In Other Browsers"
@@ -61,19 +57,19 @@
         },
         "keybindings": [
             {
-                "command": "extension.openInBrowser",
-                "key": "Alt+B"
+                "command": "extension.openInSpecifyBrowser",
+                "key": "shift+alt+B"
             },
             {
-                "command": "extension.openInSpecifyBrowser",
-                "key": "Alt+Shift+B"
+                "command": "extension.openInDefaultBrowser",
+                "key": "Alt+B"
             }
         ],
         "menus": {
             "explorer/context": [
                 {
                     "when": "resourceLangId == html",
-                    "command": "extension.openInBrowserFromMenu",
+                    "command": "extension.openInDefaultBrowser",
                     "group": "open-in-browser"
                 },
                 {
@@ -85,7 +81,7 @@
             "editor/context": [
                 {
                     "when": "resourceLangId == html",
-                    "command": "extension.openInBrowser",
+                    "command": "extension.openInDefaultBrowser",
                     "group": "open-in-browser"
                 },
                 {
@@ -97,7 +93,7 @@
             "editor/title/context": [
                 {
                     "when": "resourceLangId == html",
-                    "command": "extension.openInBrowser",
+                    "command": "extension.openInDefaultBrowser",
                     "group": "open-in-browser"
                 },
                 {
@@ -121,5 +117,8 @@
         "tslint": "^5.8.0",
         "@types/node": "^7.0.43",
         "@types/mocha": "^2.2.42"
+    },
+    "dependencies": {
+        "opn": "^5.3.0"
     }
 }
