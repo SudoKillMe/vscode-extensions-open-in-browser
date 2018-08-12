@@ -63,7 +63,7 @@ const safariItem: PickItem = {
   label: "Apple Safari",
   standardName: "safari",
   acceptName: ['safari']
-}
+};
 
 const operaItem: PickItem = {
   description: "Windows, Mac",
@@ -71,7 +71,7 @@ const operaItem: PickItem = {
   label: 'Opera',
   standardName: 'opera',
   acceptName: ['opera']
-}
+};
 
 const browsers = [chromeItem, firefoxItem, operaItem];
 

@@ -2,102 +2,47 @@
 
 # Open in Browser
 
-## what's new
-You can now right click the file in the tab bar to open in browser
+## What's new?
+* rewrite the code with TypeScript, now it dependes on a tiny library [npm/opn](https://www.npmjs.com/package/opn)
+* support more browsers: **Chromium**(*Mac only*), **Firefox Developer Edition**(*Mac only*), **Edge**(*Windows only, __sometimes it won't work__*)
+* you can open *__any__* type of file with the default program, not only *__html__* file. 
 
-***
+## How it works?
+* on *win32* uses `start`
+* on *darwin* uses `open`
+* otherwise uses ths `xdg-open` script from [freedesktop.org](http://portland.freedesktop.org/xdg-utils-1.0/xdg-open.html)
 
-Finally, you can open html pages with browsers you specified.
+## Usage
+use `Alt + B` shortcut to open current *html* file in default browser, or `Shift + Alt + B` to choose a browser.
+you could also right click just like the picture:
+![img](http://oiw7043hi.bkt.clouddn.com/opneinbrowser_des.jpg)
 
-Usually, I use Firefox browser for convenience, however, I prefer to use Chrome browser when I debugging my html pages. In previous versions, I can not get it. But now, we can.
+when you choose `oepn in Other Browsers`, a browser list will display, and you could choose one to open current file.
+![img](http://oiw7043hi.bkt.clouddn.com/openinbrowser_others.png)
 
-Use the Alt-B shortcut to open in the default browser (see setting information below), or Alt-Shift-B to choose a browser. Alternatively, use right-click context menus in the sidebar, tabbar, or body of an HTML file.
+when you choose `open in Default Browser`, it means *system default browser* by default. If you want to configure the default browser, you could override it like that:
+![img](http://oiw7043hi.bkt.clouddn.com/openinbrowser_config.jpg)
+if you configured the default browser, when you choose `open in Default Browser`, your configured browser will works.
 
-####  open-in-browser.default
+you do not need to set `opn-in-browser.default` a very accurate value, as long as the value matches any of the following terms, I will handle it:
+__*Chrome*__ values: *chrome*, *google chrome*, *google-chrome*, *gc*
+__*Firefox*__ values: *firefox*, *mozilla firefox*, *ff* 
+__*IE*__ values: *ie*, *iexplore*
+__*Safari*__ values: *safari*
+__*Opera*__ values: *opera*
+__*Chromium*__ values: *chromium*
+__*Firefox Developer Edition*__ values: *firefox developer*, *fde*, *firefox developer edition*
+__*Edge*__ values: *edge*, *msedge*, *microsoftedge*
 
-In this version, I add a "open-in-browser.default" configuration option. You can set the value to the name of your favorite browser. 
-if the value is correct and not empty,  when you open the browser directly through the shortcut keys, it will open the browser that you specified, rather than the system default browser.
+## Shortcuts
 
-For some reason, acceptable browsers are as follows:
->##### Firefox , Chrome , Opera, IE and Safari #####
+|key|command|
+|------|------|
+|`Alt + B`|open in default browser|
+|`Shift + Alt + B`|open in specified browser|
 
-You do not need to set a very accurate value, only if the value in the array, I will handle it:
-
-chrome browser acceptable values:
->   [ 'chrome', 'google chrome', 'google-chrome', 'gc', '谷歌浏览器' ]
-
-firefox browser acceptable values:
->   [ 'firefox', 'ff', 'mozilla firefox', '火狐浏览器' ]
-
-ie browser acceptable values:
->   [ 'ie', 'iexplore' ]
-
-safari browser acceptable values:
->   [ 'safari' ]
-
-opera browser acceptable values:
->   [ 'opera' ]
-
-
-if you do not know how to do, see the gif below:
-
-![demo](http://oiw7043hi.bkt.clouddn.com/demo-new.gif)
-
-* * *
-
-####  open in other browsers
-
-This is not enough, now, you can open html pages *in other browsers*.
-when you right click, you may find a new item "`open in other browsers`", if you click it, you will get a browsers list, then you can choose one to open this page.
-
-of course, you can also get it with shortcut `Alt+Shift+B`
-
-see the demonstration gif:
-
-![demo](http://oiw7043hi.bkt.clouddn.com/other.gif)
-
-## TIP
-
-I spend a day doing this and I tested on windows, mac os and ubuntu, if you find any bug, let me know, thanks. 
-
-## SUPPORT
-
-MacOS, Linux, Windows 
-
-
-## Release
-
-#### 1.2.0
-added context menu option to tab bar
-
-
-#### 1.1.1
-add `opera` support
-
-change icon;  beautiful, right?
-
-change Licence
-#### 1.0.0
-add `default browser` configuration option
-
-add `open in other browsers`
-
-#### 0.0.3
-add `open file by right click menu item`
-
-fix some bug
-
-#### 0.0.2
-add shortcut `Alt + B` 
-
-modify the command on linux...
-
-#### 0.0.1
-
-BASIC SUPPORT...
+## Changelog
+see [changelog](CHANGELOG.MD) for more infomation
 
 ## License
-
-Apache Licence 2.0
-
-
+[MIT](https://raw.githubusercontent.com/DonJayamanne/bowerVSCode/master/LICENSE)

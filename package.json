@@ -3,7 +3,7 @@
     "displayName": "open in browser",
     "description": "This allows you to open the current file in your default browser or application.",
     "icon": "images/icon.png",
-    "version": "1.2.0",
+    "version": "2.0.0",
     "publisher": "techer",
     "repository": "https://github.com/SudoKillMe/vscode-extensions-open-in-browser",
     "engines": {
@@ -42,16 +42,6 @@
                     "type": "string",
                     "default": "",
                     "description": "Set default browser"
-                },
-                "open-in-browser.allowedFileTypes": {
-                    "type": "array",
-                    "default": [
-                        "html",
-                        "markdown",
-                        "json",
-                        "plaintext"
-                    ],
-                    "description": "Set the allowed file types list to be open in browser"
                 }
             }
         },
