@@ -15,13 +15,13 @@
 ## Usage
 use `Alt + B` shortcut to open current *html* file in default browser, or `Shift + Alt + B` to choose a browser.
 you could also right click just like the picture:
-![img](http://oiw7043hi.bkt.clouddn.com/opneinbrowser_des.jpg)
+![img](https://i.loli.net/2018/08/12/5b6fb8f378e8b.jpg)
 
 when you choose `oepn in Other Browsers`, a browser list will display, and you could choose one to open current file.
-![img](http://oiw7043hi.bkt.clouddn.com/openinbrowser_others.png)
+![img](https://i.loli.net/2018/08/12/5b6fb86934f8f.png)
 
 when you choose `open in Default Browser`, it means *system default browser* by default. If you want to configure the default browser, you could override it like that:
-![img](http://oiw7043hi.bkt.clouddn.com/openinbrowser_config.jpg)
+![img](https://i.loli.net/2018/08/12/5b6fb86942af1.jpg)
 if you configured the default browser, when you choose `open in Default Browser`, your configured browser will works.
 
 you do not need to set `opn-in-browser.default` a very accurate value, as long as the value matches any of the following terms, I will handle it:

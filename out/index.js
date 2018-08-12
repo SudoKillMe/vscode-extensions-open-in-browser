@@ -8,41 +8,41 @@ function currentPageUri() {
         && vscode.window.activeTextEditor.document
         && vscode.window.activeTextEditor.document.uri;
 }
+/**
+ * open default browser
+ * if you have specified browser in configuration file,
+ * the browser you specified will work.
+ * else the system default browser will work.
+ */
 exports.openDefault = (path) => {
-    //Todo html限定
     let uri;
     if (path) {
         uri = path.fsPath;
-        // open(path.fsPath);
     }
     else {
         const _path = currentPageUri();
         uri = _path && _path.fsPath;
-        // _path && open(_path.fsPath);
     }
-    util_1.open(uri);
+    const browser = util_1.standardizedBrowserName(util_1.defaultBrowser());
+    util_1.open(uri, browser);
 };
+/**
+ * open specify browser
+ */
 exports.openBySpecify = (path) => {
-    console.log('openBySpecify');
-    console.log(path);
     vscode.window.showQuickPick(config_1.default.browsers).then(item => {
         if (!item) {
             return;
         }
         let uri;
         if (path) {
-            console.log('path: ', path);
             uri = path.fsPath;
-            // open(path.fsPath);
         }
         else {
             const _path = currentPageUri();
-            console.log('_path: ', _path);
             uri = _path && _path.fsPath;
-            // _path && open(_path.fsPath);
         }
         util_1.open(uri, item.standardName);
-        console.log(item);
     });
 };
 //# sourceMappingURL=index.js.map

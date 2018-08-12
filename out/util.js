@@ -7,33 +7,27 @@ const opn = require('opn');
  * get standardized browser name
  * @param name String
  */
-function standardizedBrowserName(name = '') {
+exports.standardizedBrowserName = (name = '') => {
     let _name = name.toLowerCase();
     const browser = config_1.default.browsers.find(item => {
         return item.acceptName.indexOf(_name) !== -1;
     });
     return browser ? browser.standardName : '';
-}
+};
 /**
  * get default browser name
  */
-function defaultBrowser() {
+exports.defaultBrowser = () => {
     const config = vscode.workspace.getConfiguration(config_1.default.app);
     return config ? config.default : '';
-}
-exports.currentUri = () => {
-    let res = vscode.window.activeTextEditor;
-    return res;
 };
 exports.open = (path, browser = '') => {
-    const name = standardizedBrowserName(browser);
-    const defaultBrowser;
-    ();
-    console.log('path: ', path, ' name: ', name);
-    opn(path, { app: name ? name : , default:  })
-        .then()
-        .catch(err => {
-        console.log(err);
+    // const name = browser ? browser : standardizedBrowserName(defaultBrowser());
+    // const name = standardizedBrowserName(browser);
+    // console.log('path: ', path, ' name: ', name);
+    opn(path, { app: browser })
+        .catch(_ => {
+        vscode.window.showErrorMessage(`Open browser failed!! Please check if you have installed the browser ${browser} correctly!`);
     });
 };
 //# sourceMappingURL=util.js.map

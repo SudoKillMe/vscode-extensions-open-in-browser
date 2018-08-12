@@ -12,12 +12,26 @@ const chromeItem = {
             : 'google-chrome'),
     acceptName: ['chrome', 'google chrome', 'google-chrome', 'gc', '谷歌浏览器']
 };
+const chromiumItem = {
+    description: "Mac",
+    detail: "A fast, secure, and free web browser built for the modern web",
+    label: "Google Chromium",
+    standardName: "Chromium",
+    acceptName: ['chromium']
+};
 const firefoxItem = {
     description: "Windows, Mac, Linux",
     detail: "A fast, smart and personal web browser",
     label: "Mozilla Firefox",
     standardName: "firefox",
     acceptName: ['firefox', 'ff', 'mozilla firefox', '火狐浏览器']
+};
+const firefoxDeveloperItem = {
+    description: "Mac",
+    detail: "A fast, smart and personal web browser",
+    label: "Mozilla Firefox Developer Edition",
+    standardName: "FirefoxDeveloperEdition",
+    acceptName: ['firefox developer', 'fde', 'firefox developer edition']
 };
 const ieItem = {
     description: "Windows",
@@ -31,7 +45,7 @@ const edgeItem = {
     detail: "A modern browser aiming to replace ie",
     label: "Microsoft Edge",
     standardName: "MicrosoftEdge",
-    acceptName: ['edge', 'msedge', 'MicrosoftEdge']
+    acceptName: ['edge', 'msedge', 'microsoftedge']
 };
 const safariItem = {
     description: "Mac",
@@ -54,6 +68,8 @@ if (process.platform === 'win32') {
 }
 else if (process.platform === 'darwin') {
     browsers.push(safariItem);
+    browsers.push(chromiumItem);
+    browsers.push(firefoxDeveloperItem);
 }
 exports.default = {
     browsers: browsers,
