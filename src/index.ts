@@ -1,4 +1,4 @@
-import { open, currentUri } from './util';
+import { open } from './util';
 import Config from './config';
 import * as vscode from 'vscode';
 

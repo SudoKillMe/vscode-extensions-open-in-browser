@@ -24,17 +24,11 @@ function defaultBrowser (): string {
   return config ? config.default : '';
 }
 
-export const currentUri = () => {
-  let res = vscode.window.activeTextEditor;
-  return res;
-};
-
 export const open = (path: string, browser: string = '') => {
   const name = standardizedBrowserName(browser);
-  const default = defaultBrowser();
   console.log('path: ', path, ' name: ', name);
-  opn(path, { app: name ? name : default })
-    .then()
+  opn(path, { app: name ? name : defaultBrowser() })
+    .then(res => console.log(res))
     .catch(err => {
       console.log(err);
     });

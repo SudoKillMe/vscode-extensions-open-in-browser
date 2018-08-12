@@ -19,30 +19,45 @@ const chromeItem: PickItem = {
                     ),
   acceptName: ['chrome', 'google chrome', 'google-chrome', 'gc', '谷歌浏览器']
 };
-const firefoxItem = {
+
+const chromiumItem: PickItem = {
+  description: "Mac",
+  detail: "A fast, secure, and free web browser built for the modern web",
+  label: "Google Chromium",
+  standardName: "Chromium",
+  acceptName: ['chromium']
+};
+const firefoxItem: PickItem = {
   description: "Windows, Mac, Linux",
   detail: "A fast, smart and personal web browser",
   label: "Mozilla Firefox",
   standardName: "firefox",
   acceptName: ['firefox', 'ff', 'mozilla firefox', '火狐浏览器']
 };
+const firefoxDeveloperItem: PickItem = {
+  description: "Mac",
+  detail: "A fast, smart and personal web browser",
+  label: "Mozilla Firefox Developer Edition",
+  standardName: "FirefoxDeveloperEdition",
+  acceptName: ['firefox developer', 'fde', 'firefox developer edition']
+};
 
-const ieItem = {
+const ieItem: PickItem = {
   description: "Windows",
   detail: "A slightly outdated browser",
   label: "Microsoft IE",
   standardName: "iexplore",
   acceptName: ['ie', 'iexplore']
 };
-const edgeItem = {
+const edgeItem: PickItem = {
   description: "Windows",
   detail: "A modern browser aiming to replace ie",
   label: "Microsoft Edge",
   standardName: "MicrosoftEdge",
-  acceptName: ['edge', 'msedge', 'MicrosoftEdge']
+  acceptName: ['edge', 'msedge', 'microsoftedge']
 };
 
-const safariItem = {
+const safariItem: PickItem = {
   description: "Mac",
   detail: "A fast, efficient browser on Mac",
   label: "Apple Safari",
@@ -50,7 +65,7 @@ const safariItem = {
   acceptName: ['safari']
 }
 
-const operaItem = {
+const operaItem: PickItem = {
   description: "Windows, Mac",
   detail: 'A fast, secure, easy-to-use browser',
   label: 'Opera',
@@ -65,6 +80,8 @@ if (process.platform === 'win32') {
   browsers.push(edgeItem);
 } else if (process.platform === 'darwin') {
   browsers.push(safariItem);
+  browsers.push(chromiumItem);
+  browsers.push(firefoxDeveloperItem);
 }
 
 export default {
