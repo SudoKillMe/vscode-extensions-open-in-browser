@@ -1,4 +1,4 @@
-import { open } from './util';
+import { open, defaultBrowser, standardizedBrowserName } from './util';
 import Config from './config';
 import * as vscode from 'vscode';
 
@@ -8,24 +8,28 @@ function currentPageUri () {
       && vscode.window.activeTextEditor.document.uri;
 }
 
+/** 
+ * open default browser
+ * if you have specified browser in configuration file, 
+ * the browser you specified will work.
+ * else the system default browser will work.
+ */
 export const openDefault = (path: any): void => {
-  //Todo html限定
   let uri;
   if (path) {
     uri = path.fsPath;
-    // open(path.fsPath);
   } else {
     const _path = currentPageUri();
     uri = _path && _path.fsPath;
-    // _path && open(_path.fsPath);
   }
-
-  open(uri);
+  const browser = standardizedBrowserName(defaultBrowser());
+  open(uri, browser);
 };
 
+/** 
+ * open specify browser
+ */
 export const openBySpecify = (path: any): void => {
-  console.log('openBySpecify');
-  console.log(path);
   vscode.window.showQuickPick(
     Config.browsers
   ).then(item => {
@@ -34,16 +38,11 @@ export const openBySpecify = (path: any): void => {
     }
     let uri;
     if (path) {
-      console.log('path: ', path);
       uri = path.fsPath;
-      // open(path.fsPath);
     } else {
       const _path = currentPageUri();
-      console.log('_path: ', _path);
       uri = _path && _path.fsPath;
-      // _path && open(_path.fsPath);
     }
     open(uri, item.standardName);
-    console.log(item);
   });
 };

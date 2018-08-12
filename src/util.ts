@@ -7,7 +7,7 @@ const opn = require('opn');
  * get standardized browser name
  * @param name String
  */
-function standardizedBrowserName (name: string = ''): string {
+export const standardizedBrowserName = (name: string = ''): string => {
   let _name = name.toLowerCase();
   const browser = Config.browsers.find(item => {
     return item.acceptName.indexOf(_name) !== -1;
@@ -19,17 +19,18 @@ function standardizedBrowserName (name: string = ''): string {
 /**
  * get default browser name
  */
-function defaultBrowser (): string {
+export const defaultBrowser = (): string => {
   const config = vscode.workspace.getConfiguration(Config.app);
   return config ? config.default : '';
 }
 
 export const open = (path: string, browser: string = '') => {
-  const name = standardizedBrowserName(browser);
-  console.log('path: ', path, ' name: ', name);
-  opn(path, { app: name ? name : defaultBrowser() })
+  // const name = browser ? browser : standardizedBrowserName(defaultBrowser());
+  // const name = standardizedBrowserName(browser);
+  // console.log('path: ', path, ' name: ', name);
+  opn(path, { app: browser })
     .then(res => console.log(res))
-    .catch(err => {
-      console.log(err);
+    .catch(_ => {
+      vscode.window.showErrorMessage(`Open browser failed!! Please check if you have installed the browser ${browser} correctly!`);
     });
 };
