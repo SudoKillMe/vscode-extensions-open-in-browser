@@ -16,7 +16,7 @@ function currentPageUri () {
  */
 export const openDefault = (path: any): void => {
   let uri;
-  if (path.fsPath) {
+  if (path) {
     uri = path.fsPath;
   } else {
     const _path = currentPageUri();
@@ -37,7 +37,7 @@ export const openBySpecify = (path: any): void => {
       return;
     }
     let uri;
-    if (path.fsPath) {
+    if (path) {
       uri = path.fsPath;
     } else {
       const _path = currentPageUri();
