@@ -3,7 +3,7 @@
 # Open in Browser
 
 ## What's new?
-* rewrite the code with TypeScript, now it dependes on a tiny library [npm/opn](https://www.npmjs.com/package/opn)
+* rewrite the code with TypeScript, now it depends on a tiny library [npm/opn](https://www.npmjs.com/package/opn)
 * support more browsers: **Chromium**(*Mac only*), **Firefox Developer Edition**(*Mac only*), **Edge**(*Windows only, __sometimes it won't work__*)
 * you can open *__any__* type of file with the default program, not only *__html__* file. 
 
@@ -17,7 +17,7 @@ use `Alt + B` shortcut to open current *html* file in default browser, or `Shift
 you could also right click just like the picture:
 ![img](https://i.loli.net/2018/08/12/5b6fb8f378e8b.jpg)
 
-when you choose `oepn in Other Browsers`, a browser list will display, and you could choose one to open current file.
+when you choose `open in Other Browsers`, a browser list will display, and you could choose one to open current file.
 ![img](https://i.loli.net/2018/08/12/5b6fb86934f8f.png)
 
 when you choose `open in Default Browser`, it means *system default browser* by default. If you want to configure the default browser, you could override it like that:
@@ -42,7 +42,7 @@ __*Edge*__ values: *edge*, *msedge*, *microsoftedge*
 |`Shift + Alt + B`|open in specified browser|
 
 ## Changelog
-see [changelog](CHANGELOG.MD) for more infomation
+see [changelog](CHANGELOG.MD) for more information
 
 ## License
 [MIT](https://raw.githubusercontent.com/DonJayamanne/bowerVSCode/master/LICENSE)
