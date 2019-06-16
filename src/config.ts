@@ -21,10 +21,10 @@ const chromeItem: PickItem = {
 };
 
 const chromiumItem: PickItem = {
-  description: "Mac",
+  description: "Mac, Linux",
   detail: "A fast, secure, and free web browser built for the modern web",
   label: "Google Chromium",
-  standardName: "Chromium",
+  standardName: 'chromium',
   acceptName: ['chromium']
 };
 const firefoxItem: PickItem = {
@@ -35,11 +35,11 @@ const firefoxItem: PickItem = {
   acceptName: ['firefox', 'ff', 'mozilla firefox', '火狐浏览器']
 };
 const firefoxDeveloperItem: PickItem = {
-  description: "Mac",
+  description: "Mac, Linux",
   detail: "A fast, smart and personal web browser",
   label: "Mozilla Firefox Developer Edition",
-  standardName: "FirefoxDeveloperEdition",
-  acceptName: ['firefox developer', 'fde', 'firefox developer edition']
+  standardName: platform === "darwin" ? "FirefoxDeveloperEdition" : "firefox-developer-edition",
+  acceptName: ['firefox developer', 'fde', 'firefox developer edition', 'firefox-developer-edition']
 };
 
 const ieItem: PickItem = {
@@ -66,7 +66,7 @@ const safariItem: PickItem = {
 };
 
 const operaItem: PickItem = {
-  description: "Windows, Mac",
+  description: "Windows, Mac, Linux",
   detail: 'A fast, secure, easy-to-use browser',
   label: 'Opera',
   standardName: 'opera',
@@ -80,6 +80,9 @@ if (process.platform === 'win32') {
   browsers.push(edgeItem);
 } else if (process.platform === 'darwin') {
   browsers.push(safariItem);
+  browsers.push(chromiumItem);
+  browsers.push(firefoxDeveloperItem);
+} else {
   browsers.push(chromiumItem);
   browsers.push(firefoxDeveloperItem);
 }
