@@ -27,7 +27,6 @@ export const defaultBrowser = (): string => {
 export const open = (path: string, browser: string = '') => {
   // const name = browser ? browser : standardizedBrowserName(defaultBrowser());
   // const name = standardizedBrowserName(browser);
-  // console.log('path: ', path, ' name: ', name);
   opn(path, { app: browser })
     .catch(_ => {
       vscode.window.showErrorMessage(`Open browser failed!! Please check if you have installed the browser ${browser} correctly!`);
