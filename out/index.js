@@ -3,10 +3,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const util_1 = require("./util");
 const config_1 = require("./config");
 const vscode = require("vscode");
+
 function currentPageUri() {
-    return vscode.window.activeTextEditor
-        && vscode.window.activeTextEditor.document
-        && vscode.window.activeTextEditor.document.uri;
+    return vscode.window.activeTextEditor &&
+        vscode.window.activeTextEditor.document &&
+        vscode.window.activeTextEditor.document.uri;
 }
 /**
  * open default browser
@@ -16,10 +17,9 @@ function currentPageUri() {
  */
 exports.openDefault = (path) => {
     let uri;
-    if (path) {
+    if (path.fsPath) {
         uri = path.fsPath;
-    }
-    else {
+    } else {
         const _path = currentPageUri();
         uri = _path && _path.fsPath;
     }
@@ -35,10 +35,9 @@ exports.openBySpecify = (path) => {
             return;
         }
         let uri;
-        if (path) {
+        if (path.fsPath) {
             uri = path.fsPath;
-        }
-        else {
+        } else {
             const _path = currentPageUri();
             uri = _path && _path.fsPath;
         }
