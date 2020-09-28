@@ -23,8 +23,7 @@
     ],
     "main": "./out/extension",
     "contributes": {
-        "commands": [
-            {
+        "commands": [{
                 "command": "extension.openInDefaultBrowser",
                 "title": "Open In Default Browser"
             },
@@ -45,8 +44,7 @@
                 }
             }
         },
-        "keybindings": [
-            {
+        "keybindings": [{
                 "command": "extension.openInSpecifyBrowser",
                 "key": "shift+alt+B"
             },
@@ -56,9 +54,23 @@
             }
         ],
         "menus": {
-            "explorer/context": [
-                {
+            "explorer/context": [{
                     "when": "resourceLangId == html",
+                    "command": "extension.openInDefaultBrowser",
+                    "group": "open-in-browser"
+                },
+                {
+                    "when": "resourceLangId == json",
+                    "command": "extension.openInDefaultBrowser",
+                    "group": "open-in-browser"
+                },
+                {
+                    "when": "resourceLangId == markdown",
+                    "command": "extension.openInDefaultBrowser",
+                    "group": "open-in-browser"
+                },
+                {
+                    "when": "resourceLangId == plaintext",
                     "command": "extension.openInDefaultBrowser",
                     "group": "open-in-browser"
                 },
@@ -66,11 +78,40 @@
                     "when": "resourceLangId == html",
                     "command": "extension.openInSpecifyBrowser",
                     "group": "open-in-browser"
+                },
+                {
+                    "when": "resourceLangId == json",
+                    "command": "extension.openInSpecifyBrowser",
+                    "group": "open-in-browser"
+                },
+                {
+                    "when": "resourceLangId == markdown",
+                    "command": "extension.openInSpecifyBrowser",
+                    "group": "open-in-browser"
+                },
+                {
+                    "when": "resourceLangId == plaintext",
+                    "command": "extension.openInSpecifyBrowser",
+                    "group": "open-in-browser"
                 }
             ],
-            "editor/context": [
-                {
+            "editor/context": [{
                     "when": "resourceLangId == html",
+                    "command": "extension.openInDefaultBrowser",
+                    "group": "open-in-browser"
+                },
+                {
+                    "when": "resourceLangId == json",
+                    "command": "extension.openInDefaultBrowser",
+                    "group": "open-in-browser"
+                },
+                {
+                    "when": "resourceLangId == markdown",
+                    "command": "extension.openInDefaultBrowser",
+                    "group": "open-in-browser"
+                },
+                {
+                    "when": "resourceLangId == plaintext",
                     "command": "extension.openInDefaultBrowser",
                     "group": "open-in-browser"
                 },
@@ -78,16 +119,60 @@
                     "when": "resourceLangId == html",
                     "command": "extension.openInSpecifyBrowser",
                     "group": "open-in-browser"
+                },
+                {
+                    "when": "resourceLangId == json",
+                    "command": "extension.openInSpecifyBrowser",
+                    "group": "open-in-browser"
+                },
+                {
+                    "when": "resourceLangId == markdown",
+                    "command": "extension.openInSpecifyBrowser",
+                    "group": "open-in-browser"
+                },
+                {
+                    "when": "resourceLangId == plaintext",
+                    "command": "extension.openInSpecifyBrowser",
+                    "group": "open-in-browser"
                 }
             ],
-            "editor/title/context": [
-                {
+            "editor/title/context": [{
                     "when": "resourceLangId == html",
                     "command": "extension.openInDefaultBrowser",
                     "group": "open-in-browser"
                 },
                 {
+                    "when": "resourceLangId == json",
+                    "command": "extension.openInDefaultBrowser",
+                    "group": "open-in-browser"
+                },
+                {
+                    "when": "resourceLangId == markdown",
+                    "command": "extension.openInDefaultBrowser",
+                    "group": "open-in-browser"
+                },
+                {
+                    "when": "resourceLangId == plaintext",
+                    "command": "extension.openInDefaultBrowser",
+                    "group": "open-in-browser"
+                },
+                {
                     "when": "resourceLangId == html",
+                    "command": "extension.openInSpecifyBrowser",
+                    "group": "open-in-browser"
+                },
+                {
+                    "when": "resourceLangId == json",
+                    "command": "extension.openInSpecifyBrowser",
+                    "group": "open-in-browser"
+                },
+                {
+                    "when": "resourceLangId == markdown",
+                    "command": "extension.openInSpecifyBrowser",
+                    "group": "open-in-browser"
+                },
+                {
+                    "when": "resourceLangId == plaintext",
                     "command": "extension.openInSpecifyBrowser",
                     "group": "open-in-browser"
                 }
