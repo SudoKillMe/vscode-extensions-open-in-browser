@@ -42,7 +42,7 @@ __*Edge*__ values: *edge*, *msedge*, *microsoftedge*
 |`Shift + Alt + B`|open in specified browser|
 
 ## Changelog
-see [changelog](CHANGELOG.MD) for more infomation
+see [changelog](CHANGELOG.md) for more infomation
 
 ## License
 [MIT](https://raw.githubusercontent.com/DonJayamanne/bowerVSCode/master/LICENSE)
