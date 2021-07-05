@@ -41,11 +41,15 @@ const ieItem = {
     acceptName: ['ie', 'iexplore']
 };
 const edgeItem = {
-    description: "Windows",
+    description: "Windows, Mac",
     detail: "A modern browser aiming to replace ie",
     label: "Microsoft Edge",
-    standardName: "MicrosoftEdge",
-    acceptName: ['edge', 'msedge', 'microsoftedge']
+    standardName: platform === 'win32'
+        ? 'MicrosoftEdge'
+        : (platform === 'darwin'
+            ? 'Microsoft Edge'
+            : 'microsoft-edge'),
+    acceptName: ['edge', 'msedge', 'microsoftedge', 'Microsoft Edge', 'microsoft edge', 'microsoft-edge']
 };
 const safariItem = {
     description: "Mac",
@@ -68,6 +72,7 @@ if (process.platform === 'win32') {
 }
 else if (process.platform === 'darwin') {
     browsers.push(safariItem);
+    browsers.push(edgeItem);
     browsers.push(chromiumItem);
     browsers.push(firefoxDeveloperItem);
 }
