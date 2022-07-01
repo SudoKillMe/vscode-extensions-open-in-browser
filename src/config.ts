@@ -21,10 +21,12 @@ const chromeItem: PickItem = {
 };
 
 const chromiumItem: PickItem = {
-  description: "Mac",
+  description: "Mac, Linux",
   detail: "A fast, secure, and free web browser built for the modern web",
   label: "Google Chromium",
-  standardName: "Chromium",
+  standardName: platform === 'darwin' 
+                  ? 'Chromium' 
+                  : 'chromium-browser',
   acceptName: ['chromium']
 };
 const firefoxItem: PickItem = {
@@ -82,6 +84,8 @@ if (process.platform === 'win32') {
   browsers.push(safariItem);
   browsers.push(chromiumItem);
   browsers.push(firefoxDeveloperItem);
+} else {
+  browsers.push(chromiumItem);
 }
 
 export default {
