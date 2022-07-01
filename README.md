@@ -10,7 +10,7 @@
 ## How it works?
 * on *win32* uses `start`
 * on *darwin* uses `open`
-* otherwise uses ths `xdg-open` script from [freedesktop.org](http://portland.freedesktop.org/xdg-utils-1.0/xdg-open.html)
+* otherwise uses the `xdg-open` script from [freedesktop.org](https://portland.freedesktop.org/doc/xdg-open.html)
 
 ## Usage
 use `Alt + B` shortcut to open current *html* file in default browser, or `Shift + Alt + B` to choose a browser.
