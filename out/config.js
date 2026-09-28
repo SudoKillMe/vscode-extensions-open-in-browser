@@ -12,12 +12,19 @@ const chromeItem = {
             : 'google-chrome'),
     acceptName: ['chrome', 'google chrome', 'google-chrome', 'gc', '谷歌浏览器']
 };
+const canaryItem = {
+    description: "Windows, Mac",
+    label: "Google Chrome Canary",
+    standardName: platform === 'darwin' ? 'Google Chrome Canary'
+        : `${process.env.LOCALAPPDATA}\\Google\\Chrome SxS\\Application\\chrome.exe`,
+    acceptName: ['canary', 'chrome canary', 'google chrome canary']
+};
 const chromiumItem = {
-    description: "Mac",
+    description: "Mac, Linux",
     detail: "A fast, secure, and free web browser built for the modern web",
     label: "Google Chromium",
-    standardName: "Chromium",
-    acceptName: ['chromium']
+    standardName: platform === 'darwin' ? 'Chromium' : 'chromium',
+    acceptName: ['chromium', 'chromium-browser']
 };
 const firefoxItem = {
     description: "Windows, Mac, Linux",
@@ -30,7 +37,7 @@ const firefoxDeveloperItem = {
     description: "Mac",
     detail: "A fast, smart and personal web browser",
     label: "Mozilla Firefox Developer Edition",
-    standardName: "FirefoxDeveloperEdition",
+    standardName: "Firefox Developer Edition",
     acceptName: ['firefox developer', 'fde', 'firefox developer edition']
 };
 const ieItem = {
@@ -44,7 +51,7 @@ const edgeItem = {
     description: "Windows",
     detail: "A modern browser aiming to replace ie",
     label: "Microsoft Edge",
-    standardName: "MicrosoftEdge",
+    standardName: "msedge",
     acceptName: ['edge', 'msedge', 'microsoftedge']
 };
 const safariItem = {
@@ -61,15 +68,27 @@ const operaItem = {
     standardName: 'opera',
     acceptName: ['opera']
 };
-const browsers = [chromeItem, firefoxItem, operaItem];
+const braveItem = {
+    description: "Windows, Mac, Linux",
+    label: "Brave",
+    standardName: platform === 'darwin' ? 'Brave Browser'
+        : (platform === 'win32' ? 'brave' : 'brave-browser'),
+    acceptName: ['brave', 'brave browser', 'brave-browser']
+};
+const browsers = [chromeItem, firefoxItem, operaItem, braveItem];
 if (process.platform === 'win32') {
+    browsers.push(canaryItem);
     browsers.push(ieItem);
     browsers.push(edgeItem);
 }
 else if (process.platform === 'darwin') {
+    browsers.push(canaryItem);
     browsers.push(safariItem);
     browsers.push(chromiumItem);
     browsers.push(firefoxDeveloperItem);
+}
+else if (process.platform === 'linux') {
+    browsers.push(chromiumItem);
 }
 exports.default = {
     browsers: browsers,

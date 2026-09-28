@@ -3,8 +3,9 @@
     "displayName": "open in browser",
     "description": "This allows you to open the current file in your default browser or application.",
     "icon": "images/icon.png",
-    "version": "2.0.0",
+    "version": "2.1.1",
     "publisher": "techer",
+    "license": "MIT",
     "repository": "https://github.com/SudoKillMe/vscode-extensions-open-in-browser",
     "engines": {
         "vscode": "^1.15.0"
@@ -28,7 +29,6 @@
                 "command": "extension.openInDefaultBrowser",
                 "title": "Open In Default Browser"
             },
-
             {
                 "command": "extension.openInSpecifyBrowser",
                 "title": "Open In Other Browsers"
@@ -42,6 +42,17 @@
                     "type": "string",
                     "default": "",
                     "description": "Set default browser"
+                },
+                "open-in-browser.arguments": {
+                    "type": "object",
+                    "default": {},
+                    "additionalProperties": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "description": "Arguments by browser alias or absolute executable path. Applies only to an explicitly selected browser, not the system default application."
                 }
             }
         },
@@ -58,7 +69,7 @@
         "menus": {
             "explorer/context": [
                 {
-                    "when": "resourceLangId == html",
+                    "when": "resourceScheme == file && explorerResourceIsFolder != true",
                     "command": "extension.openInDefaultBrowser",
                     "group": "open-in-browser"
                 },
@@ -70,7 +81,7 @@
             ],
             "editor/context": [
                 {
-                    "when": "resourceLangId == html",
+                    "when": "resourceScheme == file && explorerResourceIsFolder != true",
                     "command": "extension.openInDefaultBrowser",
                     "group": "open-in-browser"
                 },
@@ -82,7 +93,7 @@
             ],
             "editor/title/context": [
                 {
-                    "when": "resourceLangId == html",
+                    "when": "resourceScheme == file && explorerResourceIsFolder != true",
                     "command": "extension.openInDefaultBrowser",
                     "group": "open-in-browser"
                 },
@@ -97,13 +108,12 @@
     "scripts": {
         "vscode:prepublish": "npm run compile",
         "compile": "tsc -p ./",
-        "watch": "tsc -watch -p ./",
-        "postinstall": "node ./node_modules/vscode/bin/install",
-        "test": "npm run compile && node ./node_modules/vscode/bin/test"
+        "test": "npm run compile && node test/run.js",
+        "watch": "tsc -watch -p ./"
     },
     "devDependencies": {
         "typescript": "^2.6.1",
-        "vscode": "^1.1.6",
+        "@types/vscode": "1.15.0",
         "tslint": "^5.8.0",
         "@types/node": "^7.0.43",
         "@types/mocha": "^2.2.42"

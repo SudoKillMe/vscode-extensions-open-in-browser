@@ -1,48 +1,212 @@
-
-
 # Open in Browser
 
-## What's new?
-* rewrite the code with TypeScript, now it dependes on a tiny library [npm/opn](https://www.npmjs.com/package/opn)
-* support more browsers: **Chromium**(*Mac only*), **Firefox Developer Edition**(*Mac only*), **Edge**(*Windows only, __sometimes it won't work__*)
-* you can open *__any__* type of file with the default program, not only *__html__* file. 
+Open a saved file from VS Code in your preferred browser—or let your operating system choose the default application.
 
-## How it works?
-* on *win32* uses `start`
-* on *darwin* uses `open`
-* otherwise uses the `xdg-open` script from [freedesktop.org](https://portland.freedesktop.org/doc/xdg-open.html)
+Use a keyboard shortcut, the Command Palette, or a context menu. No local server is required to open a static HTML file.
 
-## Usage
-use `Alt + B` shortcut to open current *html* file in default browser, or `Shift + Alt + B` to choose a browser.
-you could also right click just like the picture:
-![img](https://i.loli.net/2018/08/12/5b6fb8f378e8b.jpg)
+## Features
 
-when you choose `open in Other Browsers`, a browser list will display, and you could choose one to open current file.
-![img](https://i.loli.net/2018/08/12/5b6fb86934f8f.png)
+- Open local files in their system-associated application or a configured browser.
+- Choose a browser for each launch with **Open In Other Browsers**.
+- Configure an absolute browser path for custom installations.
+- Set per-browser arguments, such as Chrome's `--incognito` flag.
+- Open non-HTML files, including JSON, XML, Markdown, and PSD, with their associated applications.
 
-when you choose `open in Default Browser`, it means *system default browser* by default. If you want to configure the default browser, you could override it like that:
-![img](https://i.loli.net/2018/08/12/5b6fb86942af1.jpg)
-if you configured the default browser, when you choose `open in Default Browser`, your configured browser will works.
+The 2.1 series adds Brave and Chrome Canary mappings, Linux Chromium support, browser arguments, and broader default-application menus. It also updates Windows path handling and avoids waiting for browsers to exit on macOS. See the [changelog](CHANGELOG.md) for details and validation limits.
 
-you do not need to set `open-in-browser.default` a very accurate value, as long as the value matches any of the following terms, I will handle it:
-__*Chrome*__ values: *chrome*, *google chrome*, *google-chrome*, *gc*
-__*Firefox*__ values: *firefox*, *mozilla firefox*, *ff* 
-__*IE*__ values: *ie*, *iexplore*
-__*Safari*__ values: *safari*
-__*Opera*__ values: *opera*
-__*Chromium*__ values: *chromium*
-__*Firefox Developer Edition*__ values: *firefox developer*, *fde*, *firefox developer edition*
-__*Edge*__ values: *edge*, *msedge*, *microsoftedge*
+## Quick start
 
-## Shortcuts
+1. Install **open in browser** (`techer.open-in-browser`) from the VS Code Extensions view.
+2. Save your file to disk.
+3. Choose how to open it:
 
-|key|command|
-|------|------|
-|`Alt + B`|open in default browser|
-|`Shift + Alt + B`|open in specified browser|
+| Action | Command | Default shortcut |
+| --- | --- | --- |
+| Use the system default application or your configured browser | **Open In Default Browser** | `Alt+B` |
+| Select a browser for this launch | **Open In Other Browsers** | `Shift+Alt+B` |
+
+Both commands are available in the Command Palette. Shortcuts and Command Palette commands use the active editor's file. Context-menu commands use the selected resource.
+
+### Context menus
+
+Commands appear in the Explorer, editor, and editor-tab context menus:
+
+- **Open In Default Browser** is available for local files of any type. Its menu entry excludes folders, unsaved documents, and remote resources.
+- **Open In Other Browsers** appears for resources whose language mode is HTML.
+
+With no browser configured, **Open In Default Browser** uses the operating system's file association. A PSD may open in an image editor, for example—not in a browser. If a browser is configured, the file is sent to that browser instead; not every file type can be displayed by a browser.
+
+## Configuration
+
+Open **Preferences: Open User Settings (JSON)** from the Command Palette and add the settings you need.
+
+### Default browser
+
+Leave `open-in-browser.default` empty to use the system-associated application:
+
+```json
+{
+  "open-in-browser.default": ""
+}
+```
+
+To choose a browser for **Open In Default Browser**, use a supported alias:
+
+```json
+{
+  "open-in-browser.default": "chrome"
+}
+```
+
+This does not change your operating system's default browser. **Open In Other Browsers** still uses whichever browser you select from the picker.
+
+### Browser aliases
+
+Aliases are case-insensitive. These are built-in mappings, not a list of browsers detected on your machine: the selected browser must already be installed and accessible.
+
+| Browser | Platforms with a built-in mapping | Accepted aliases |
+| --- | --- | --- |
+| Google Chrome | Windows, macOS, Linux | `chrome`, `google chrome`, `google-chrome`, `gc`, `谷歌浏览器` |
+| Chrome Canary | Windows, macOS | `canary`, `chrome canary`, `google chrome canary` |
+| Chromium | macOS, Linux | `chromium`, `chromium-browser` |
+| Mozilla Firefox | Windows, macOS, Linux | `firefox`, `mozilla firefox`, `ff`, `火狐浏览器` |
+| Firefox Developer Edition | macOS | `firefox developer`, `firefox developer edition`, `fde` |
+| Brave | Windows, macOS, Linux | `brave`, `brave browser`, `brave-browser` |
+| Microsoft Edge (Chromium-based) | Windows | `edge`, `msedge`, `microsoftedge` |
+| Internet Explorer (legacy) | Windows | `ie`, `iexplore` |
+| Safari | macOS | `safari` |
+| Opera | Windows, macOS, Linux | `opera` |
+
+Platform notes:
+
+- **Linux Chrome:** the usual mapping is `google-chrome`. Set the value to `google-chrome-stable` if that is your installed command, as on some Arch/Manjaro installations.
+- **Linux Chromium:** choose `chromium` or `chromium-browser` to match your installed command. The picker uses `chromium`; the alternate command can be selected through the default-browser setting.
+- **Windows Canary:** the mapping uses `%LOCALAPPDATA%\Google\Chrome SxS\Application\chrome.exe`. Canary is not offered on Linux.
+- **Legacy browsers:** a mapping does not make a browser available on operating systems that no longer provide it.
+- An unrecognized alias falls back to the system-associated application. For an executable not covered by the aliases, use an absolute path.
+
+### Absolute browser paths
+
+Use an absolute executable path if a browser is installed in a custom location, cannot be found, or another application intercepts its command name. On macOS, you can use an absolute `.app` path.
+
+For example, on Windows:
+
+```json
+{
+  "open-in-browser.default": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+}
+```
+
+Use the actual path on your machine. Keep the JSON quotes, but do not put additional shell quotes or command-line arguments inside the value. Backslashes must be escaped as `\\` in JSON.
+
+This setting applies to **Open In Default Browser**. It does not replace the browser picker's built-in mappings.
+
+### Browser arguments
+
+`open-in-browser.arguments` maps a browser alias—or an absolute path matching your configured browser—to an array of arguments.
+
+For Chrome incognito windows:
+
+```json
+{
+  "open-in-browser.default": "chrome",
+  "open-in-browser.arguments": {
+    "chrome": ["--incognito"]
+  }
+}
+```
+
+Each array element is one argument. Keep spaces within that element, without adding shell quoting:
+
+```json
+{
+  "open-in-browser.default": "chrome",
+  "open-in-browser.arguments": {
+    "chrome": ["--user-data-dir=/path/with spaces/profile"]
+  }
+}
+```
+
+Replace the example profile path with a suitable path on your machine.
+
+- Arguments apply to both commands when the matching browser is explicitly selected, including through the picker.
+- Arguments are ignored when using the unconfigured system default application or a different browser.
+- Configure only one alias per browser. When using an absolute browser path, use that same path as the arguments key.
+- Argument support depends on the browser. An already-running browser may ignore startup-only flags.
+
+## Customize shortcuts
+
+Run **Preferences: Open Keyboard Shortcuts** from the Command Palette, search for either command, and edit its binding. Use **Show Same Keybindings** to investigate conflicts, for example with GitLens.
+
+Alternatively, run **Preferences: Open Keyboard Shortcuts (JSON)** and add entries to `keybindings.json`—not `settings.json`:
+
+```json
+[
+  { "key": "alt+b", "command": "-extension.openInDefaultBrowser" },
+  { "key": "shift+alt+b", "command": "-extension.openInSpecifyBrowser" },
+  { "key": "ctrl+alt+b", "command": "extension.openInDefaultBrowser" },
+  { "key": "ctrl+alt+shift+b", "command": "extension.openInSpecifyBrowser" }
+]
+```
+
+The first two entries remove this extension's default bindings. The remaining entries assign example replacements; choose keys that are free in your environment.
+
+## Troubleshooting
+
+### A file does not open
+
+1. Save the file to disk. The extension opens the on-disk file; save any edits you want to view.
+2. Open the same file from your operating system's file manager to check its association and accessibility.
+3. If you configured a browser, verify its alias or absolute path and confirm that it can open the file outside VS Code.
+4. Check the Extension Host log for entries beginning with `[open-in-browser]`. The notification is generic, but the log preserves the underlying launch error.
+
+Opening a file manually is a diagnostic step or workaround, not proof that an extension failure is fixed.
+
+### Firefox is not found on Windows
+
+Set `open-in-browser.default` to the absolute path to `firefox.exe`, then use **Open In Default Browser**.
+
+Alternatively, add the directory containing `firefox.exe`—not the executable itself—to your user `PATH`. Keep the existing entries, then fully exit and restart VS Code so it inherits the change. This addresses command lookup, not every permission or launch failure.
+
+### A Linux browser command is not found
+
+Check the command used by your distribution. Try `google-chrome-stable` or `chromium-browser` where appropriate, or configure the browser's absolute executable path. The picker uses built-in mappings and does not detect every distribution-specific installation.
+
+### Windows reports a permission error
+
+Try opening the same file under your normal user account and inspect the underlying error. An earlier report was resolved by restoring Windows account settings, but that does not establish a common cause for other failures. Do not disable UAC, weaken security policies, or run VS Code as administrator as a general workaround.
+
+### Reporting a problem
+
+Search the [existing issues](https://github.com/SudoKillMe/vscode-extensions-open-in-browser/issues) first. When reporting a problem, include:
+
+- Extension, VS Code, operating system, and browser versions.
+- Browser installation method and relevant extension settings.
+- The command or menu you used and a representative file path.
+- Whether opening the file outside VS Code works.
+- The underlying Extension Host error and reproducible steps.
+
+Remove private information from paths and logs before sharing them.
+
+## Scope and limitations
+
+- **Local files, not a development server.** The extension does not start an HTTP server, map files to localhost URLs, or provide live reload. Pages that require HTTP or backend processing need a separate server.
+- **Saved content only.** Unsaved-document preview is not supported; save edits before opening the file.
+- **Remote access is not automatic.** SSH, containers, and WSL may require path translation, file transfer, or a separately exposed server. Launching a command does not make a remote file accessible to a local browser.
+- **Verification is platform-specific.** Automated tests cover mappings, parameters, and menu declarations; a macOS test application exercises LaunchServices. Windows/Linux browser launches, VS Code menu behavior, and Insiders installation still need desktop validation. The reported Ubuntu 24.04 default-browser failure has not been confirmed fixed.
+
+## How launching works
+
+| Platform | Launch mechanism |
+| --- | --- |
+| Windows | Windows PowerShell `Start-Process`, with literal paths and individually quoted arguments. Explicitly selected browsers receive an encoded file URI. |
+| macOS | `/usr/bin/open`, without waiting for the browser to exit. |
+| Linux | `opn`, using the selected browser command or its bundled `xdg-open` script for the system default application. |
 
 ## Changelog
-see [changelog](CHANGELOG.MD) for more infomation
+
+See [CHANGELOG.md](CHANGELOG.md) for release notes.
 
 ## License
-[MIT](https://raw.githubusercontent.com/DonJayamanne/bowerVSCode/master/LICENSE)
+
+[MIT](LICENSE).
