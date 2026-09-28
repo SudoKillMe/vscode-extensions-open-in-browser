@@ -2,11 +2,6 @@
 # yarn lockfile v1
 
 
-"@types/mocha@^2.2.42":
-  version "2.2.48"
-  resolved "http://registry.npm.taobao.org/@types/mocha/download/@types/mocha-2.2.48.tgz"
-  integrity sha1-NSOxJqCwSUguHDwRh3Rg92Yi/6s=
-
 "@types/node@14.18.63":
   version "14.18.63"
   resolved "https://registry.npmmirror.com/@types/node/-/node-14.18.63.tgz"
@@ -287,7 +282,7 @@ tsutils@^2.27.2:
   dependencies:
     tslib "^1.8.1"
 
-"typescript@>=2.1.0 || >=2.1.0-dev || >=2.2.0-dev || >=2.3.0-dev || >=2.4.0-dev || >=2.5.0-dev || >=2.6.0-dev || >=2.7.0-dev || >=2.8.0-dev || >=2.9.0-dev", "typescript@>=2.1.0 || >=2.1.0-dev || >=2.2.0-dev || >=2.3.0-dev || >=2.4.0-dev || >=2.5.0-dev || >=2.6.0-dev || >=2.7.0-dev || >=2.8.0-dev || >=2.9.0-dev || >= 3.0.0-dev || >= 3.1.0-dev", typescript@4.3.5:
+typescript@4.3.5:
   version "4.3.5"
   resolved "https://registry.npmmirror.com/typescript/-/typescript-4.3.5.tgz"
   integrity sha512-DqQgihaQ9cUrskJo9kIyW/+g0Vxsk8cDtZ52a3NGh0YNTfpUSArXSohyUGnvbPazEPLu398C0UxmKSOrPumUzA==
