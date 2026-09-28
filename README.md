@@ -96,6 +96,12 @@ You can also run **Preferences: Open Keyboard Shortcuts (JSON)** and add these e
 
 The new keys are examples; choose keys that are free in your environment. Extension defaults are unchanged.
 
+## Troubleshooting
+
+### Firefox is not found on Windows
+
+First verify that Firefox is installed and can open the same saved file outside VS Code. If the `firefox` command cannot be resolved, set `open-in-browser.default` to the absolute path to `firefox.exe` and use **Open In Default Browser**. Alternatively, add the directory containing `firefox.exe` (not the executable itself) to your user `PATH`, then fully exit and restart VS Code so it inherits the updated environment. Do not replace the existing `PATH`. This only addresses command lookup, not permissions or every launch failure (issues #73/#74/#75).
+
 ## Changelog
 see [changelog](CHANGELOG.MD) for more infomation
 
