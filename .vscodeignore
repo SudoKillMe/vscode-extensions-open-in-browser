@@ -1,0 +1,11 @@
+src/**
+test/**
+ISSUES_TRIAGE.md
+tsconfig.json
+jsconfig.json
+tslint.json
+.eslintrc.json
+.gitignore
+vsc-extension-quickstart.md
+out/**/*.map
+*.vsix

@@ -1,4 +1,4 @@
 node_modules
 .vscode/
 open-in-browser*
-.vscodeignore
+*.vsix
