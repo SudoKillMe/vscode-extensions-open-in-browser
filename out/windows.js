@@ -1,11 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.openWindows = void 0;
 const child_process_1 = require("child_process");
 // Start-Process joins ArgumentList with spaces. Quote each argument for the
 // Windows command-line parser before passing the complete string as one value.
 const quoteArgument = (value) => '"' + value.replace(/(\\*)"/g, '$1$1\\"').replace(/(\\+)$/g, '$1$1') + '"';
 const literal = (value) => "'" + value.replace(/'/g, "''") + "'";
-exports.openWindows = (target, browser, args = []) => {
+const openWindows = (target, browser, args = []) => {
     let script = "$ErrorActionPreference = 'Stop'; Start-Process -FilePath " + literal(browser || target);
     if (browser) {
         script += ' -ArgumentList ' + literal(args.concat(target).map(quoteArgument).join(' '));
@@ -22,4 +23,5 @@ exports.openWindows = (target, browser, args = []) => {
             : reject(new Error(stderr || `PowerShell exited with code ${code}`)));
     });
 };
+exports.openWindows = openWindows;
 //# sourceMappingURL=windows.js.map

@@ -1,5 +1,15 @@
 # Change Log
 
+## [3.0.0]
+
+### Added
+- Add **Open in Browser - Serve Mode** for saved local static files, with a configurable server root and preferred port. It opens a localhost HTTP URL in the system default browser.
+- Add commands to manage running local servers and stop them all.
+
+### Scope
+- Serve Mode is a lightweight static server for trusted local workspaces. It does not run backend code, provide live reload, or support remote workspaces. Use a dedicated development server for complex services.
+- Direct file opening remains available without starting a server.
+
 ## [2.1.1]
 
 ### Documentation

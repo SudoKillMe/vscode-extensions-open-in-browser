@@ -2,7 +2,7 @@
 
 Open a saved file from VS Code in your preferred browser—or let your operating system choose the default application.
 
-Use a keyboard shortcut, the Command Palette, or a context menu. No local server is required to open a static HTML file.
+Use a keyboard shortcut, the Command Palette, or a context menu. Open a file directly, or use Serve Mode to view a local static page through HTTP.
 
 ## Features
 
@@ -11,8 +11,9 @@ Use a keyboard shortcut, the Command Palette, or a context menu. No local server
 - Configure an absolute browser path for custom installations.
 - Set per-browser arguments, such as Chrome's `--incognito` flag.
 - Open non-HTML files, including JSON, XML, Markdown, and PSD, with their associated applications.
+- Serve local static pages over HTTP when a page needs a localhost URL or relative assets.
 
-The 2.1 series adds Brave and Chrome Canary mappings, Linux Chromium support, browser arguments, and broader default-application menus. It also updates Windows path handling and avoids waiting for browsers to exit on macOS. See the [changelog](CHANGELOG.md) for details and validation limits.
+Version 3.0 adds Serve Mode. The 2.1 series added browser mappings, arguments, broader default-application menus, and launch fixes. See the [changelog](CHANGELOG.md) for release details.
 
 ## Quick start
 
@@ -24,8 +25,9 @@ The 2.1 series adds Brave and Chrome Canary mappings, Linux Chromium support, br
 | --- | --- | --- |
 | Use the system default application or your configured browser | **Open In Default Browser** | `Alt+B` |
 | Select a browser for this launch | **Open In Other Browsers** | `Shift+Alt+B` |
+| Serve a local static page over HTTP | **Open in Browser - Serve Mode** | None |
 
-Both commands are available in the Command Palette. Shortcuts and Command Palette commands use the active editor's file. Context-menu commands use the selected resource.
+These commands are available in the Command Palette. Shortcuts and Command Palette commands use the active editor's file. Context-menu commands use the selected resource.
 
 ### Context menus
 
@@ -33,8 +35,33 @@ Commands appear in the Explorer, editor, and editor-tab context menus:
 
 - **Open In Default Browser** is available for local files of any type. Its menu entry excludes folders, unsaved documents, and remote resources.
 - **Open In Other Browsers** appears for resources whose language mode is HTML.
+- **Open in Browser - Serve Mode** appears for saved local files in trusted workspaces. It is unavailable in remote workspaces.
 
 With no browser configured, **Open In Default Browser** uses the operating system's file association. A PSD may open in an image editor, for example—not in a browser. If a browser is configured, the file is sent to that browser instead; not every file type can be displayed by a browser.
+
+## Serve Mode
+
+Serve Mode starts a small HTTP server for local static files and opens the selected file at a `http://127.0.0.1:PORT/...` URL in your system default browser. Use it when a page needs HTTP or loads CSS, JavaScript, images, or other relative assets. The existing direct-open commands still work without starting a server.
+
+1. Open a trusted local workspace and save the file you want to view.
+2. Run **Open in Browser - Serve Mode** from the Command Palette or a file's context menu.
+3. If the file has unsaved edits, choose **Save and Open** to save it first.
+4. When finished, run **Open in Browser - Stop All Local Servers**. Use **Open in Browser - Manage Local Servers** to reopen a URL, copy it, or stop one server.
+
+By default, the server root is the selected file's workspace folder and the preferred port is `2222`. If that port is busy, Serve Mode chooses a free port. A server is reused for other files under the same root. For a saved file outside a workspace, set `open-in-browser.serve.root` to `${fileDirname}` before opening it.
+
+Configure the root and port in your settings if needed:
+
+```json
+{
+  "open-in-browser.serve.root": "${workspaceFolder}/public",
+  "open-in-browser.serve.port": 2222
+}
+```
+
+`serve.root` also accepts `${fileDirname}`, either variable followed by a subdirectory, or an absolute directory path. The selected file must be inside that root. Port `0` always chooses a free port. Changing these settings does not reconfigure an already running server; stop it and open the file again. The server listens only on `127.0.0.1`. It can serve allowed static files under its root, including files other than the selected page; hidden files, backend scripts, and symlinks outside the root are blocked.
+
+**Serve Mode is a lightweight static server, not a general development or production server.** It does not run PHP or other backend code, provide live reload, or support remote workspaces. Do not try to use it for complex services. If you need backend processing, advanced routing, build pipelines, or other special behavior, use a dedicated development-server extension or software instead.
 
 ## Configuration
 
@@ -190,9 +217,9 @@ Remove private information from paths and logs before sharing them.
 
 ## Scope and limitations
 
-- **Local files, not a development server.** The extension does not start an HTTP server, map files to localhost URLs, or provide live reload. Pages that require HTTP or backend processing need a separate server.
+- **Direct open and lightweight Serve Mode.** Direct-open commands use file paths. Serve Mode provides localhost HTTP for static files; it does not map files to an existing development server, provide live reload, or run backend code. Use a dedicated server for more complex needs.
 - **Saved content only.** Unsaved-document preview is not supported; save edits before opening the file.
-- **Remote access is not automatic.** SSH, containers, and WSL may require path translation, file transfer, or a separately exposed server. Launching a command does not make a remote file accessible to a local browser.
+- **Local Serve Mode only.** Serve Mode is disabled in SSH, containers, WSL, and other remote workspaces. Direct-open commands do not automatically make remote files accessible to a local browser.
 - **Verification is platform-specific.** Automated tests cover mappings, parameters, and menu declarations; a macOS test application exercises LaunchServices. Windows/Linux browser launches, VS Code menu behavior, and Insiders installation still need desktop validation. The reported Ubuntu 24.04 default-browser failure has not been confirmed fixed.
 
 ## How launching works

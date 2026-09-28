@@ -3,12 +3,12 @@
     "displayName": "open in browser",
     "description": "This allows you to open the current file in your default browser or application.",
     "icon": "images/icon.png",
-    "version": "2.1.1",
+    "version": "3.0.0",
     "publisher": "techer",
     "license": "MIT",
     "repository": "https://github.com/SudoKillMe/vscode-extensions-open-in-browser",
     "engines": {
-        "vscode": "^1.15.0"
+        "vscode": "^1.57.0"
     },
     "categories": [
         "Other"
@@ -20,9 +20,22 @@
     ],
     "activationEvents": [
         "onCommand:extension.openInDefaultBrowser",
-        "onCommand:extension.openInSpecifyBrowser"
+        "onCommand:extension.openInSpecifyBrowser",
+        "onCommand:extension.openInBrowserServe",
+        "onCommand:extension.stopBrowserServers",
+        "onCommand:extension.manageBrowserServers"
     ],
     "main": "./out/extension",
+    "capabilities": {
+        "untrustedWorkspaces": {
+            "supported": "limited",
+            "description": "Serve mode is disabled in untrusted workspaces.",
+            "restrictedConfigurations": [
+                "open-in-browser.serve.root",
+                "open-in-browser.serve.port"
+            ]
+        }
+    },
     "contributes": {
         "commands": [
             {
@@ -32,12 +45,39 @@
             {
                 "command": "extension.openInSpecifyBrowser",
                 "title": "Open In Other Browsers"
+            },
+            {
+                "command": "extension.openInBrowserServe",
+                "title": "Open in Browser - Serve Mode",
+                "enablement": "isWorkspaceTrusted && !remoteName"
+            },
+            {
+                "command": "extension.stopBrowserServers",
+                "title": "Open in Browser - Stop All Local Servers"
+            },
+            {
+                "command": "extension.manageBrowserServers",
+                "title": "Open in Browser - Manage Local Servers"
             }
         ],
         "configuration": {
             "type": "object",
             "title": "plugin open-in-browser",
             "properties": {
+                "open-in-browser.serve.port": {
+                    "type": "integer",
+                    "default": 2222,
+                    "minimum": 0,
+                    "maximum": 65535,
+                    "scope": "resource",
+                    "description": "Preferred local serve port. If occupied, a free port is assigned; 0 always selects a free port. Existing servers keep their port until stopped."
+                },
+                "open-in-browser.serve.root": {
+                    "type": "string",
+                    "default": "${workspaceFolder}",
+                    "scope": "resource",
+                    "description": "Static server root: ${workspaceFolder} uses the selected file's workspace folder (default); ${fileDirname} uses its directory and also works without a workspace. Both support a subpath, e.g. ${workspaceFolder}/public. Absolute paths are also supported; empty values, bare relative paths and other variables are rejected. All allowed static files under this root are accessible locally, not just the entry. Hidden files, backend scripts and links outside the root are blocked. Stop existing servers before changing roots to revoke old access."
+                },
                 "open-in-browser.default": {
                     "type": "string",
                     "default": "",
@@ -69,6 +109,11 @@
         "menus": {
             "explorer/context": [
                 {
+                    "when": "resourceScheme == file && explorerResourceIsFolder != true && isWorkspaceTrusted && !remoteName",
+                    "command": "extension.openInBrowserServe",
+                    "group": "open-in-browser"
+                },
+                {
                     "when": "resourceScheme == file && explorerResourceIsFolder != true",
                     "command": "extension.openInDefaultBrowser",
                     "group": "open-in-browser"
@@ -81,6 +126,11 @@
             ],
             "editor/context": [
                 {
+                    "when": "resourceScheme == file && isWorkspaceTrusted && !remoteName",
+                    "command": "extension.openInBrowserServe",
+                    "group": "open-in-browser"
+                },
+                {
                     "when": "resourceScheme == file && explorerResourceIsFolder != true",
                     "command": "extension.openInDefaultBrowser",
                     "group": "open-in-browser"
@@ -92,6 +142,11 @@
                 }
             ],
             "editor/title/context": [
+                {
+                    "when": "resourceScheme == file && isWorkspaceTrusted && !remoteName",
+                    "command": "extension.openInBrowserServe",
+                    "group": "open-in-browser"
+                },
                 {
                     "when": "resourceScheme == file && explorerResourceIsFolder != true",
                     "command": "extension.openInDefaultBrowser",
@@ -112,11 +167,11 @@
         "watch": "tsc -watch -p ./"
     },
     "devDependencies": {
-        "typescript": "^2.6.1",
-        "@types/vscode": "1.15.0",
+        "@types/mocha": "^2.2.42",
+        "@types/node": "14.18.63",
+        "@types/vscode": "1.57.0",
         "tslint": "^5.8.0",
-        "@types/node": "^7.0.43",
-        "@types/mocha": "^2.2.42"
+        "typescript": "4.3.5"
     },
     "dependencies": {
         "opn": "^5.3.0"

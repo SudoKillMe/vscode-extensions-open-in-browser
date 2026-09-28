@@ -1,5 +1,6 @@
 'use strict';
 import * as vscode from 'vscode';
+import { registerServeCommands } from './serve';
 import {
     openDefault,
     openBySpecify
@@ -16,6 +17,7 @@ export function activate(context: vscode.ExtensionContext) {
 
     context.subscriptions.push(openDefaultCommand);
     context.subscriptions.push(openBySpecifyCommand);
+    registerServeCommands(context);
 }
 
 export function deactivate() {

@@ -72,12 +72,20 @@
 | --- | --- | --- |
 | [#26 Commands stopped working](https://github.com/SudoKillMe/vscode-extensions-open-in-browser/issues/26) | macOS 上快捷键与默认命令失效，但指定浏览器菜单部分可用；[评论](https://github.com/SudoKillMe/vscode-extensions-open-in-browser/issues/26#issuecomment-518262922)另出现“命令未找到”。症状跨激活、命令与浏览器启动。 | 用当前 VS Code/macOS 分别测试快捷键、命令面板、Explorer/编辑器菜单；记录 Extension Host 日志后拆成可验证的子问题。**历史环境较旧，修复前需重新复现。** |
 | [#34 Linux KDE default browser](https://github.com/SudoKillMe/vscode-extensions-open-in-browser/issues/34) | KDE 默认浏览器失败、指定浏览器可用；[评论](https://github.com/SudoKillMe/vscode-extensions-open-in-browser/issues/34#issuecomment-1356912041)中有人发现自己实际是 Brave 映射问题。 | 在 KDE/GNOME 对比系统默认启动命令、浏览器配置和错误日志；区分 #82、#89 的浏览器映射与真正的桌面环境差异。**同症状可能多根因。** |
-| [#53 WSL support](https://github.com/SudoKillMe/vscode-extensions-open-in-browser/issues/53) | WSL 路径被 Windows 浏览器当作 Windows 路径打开；[评论](https://github.com/SudoKillMe/vscode-extensions-open-in-browser/issues/53#issuecomment-764733516)提供临时路径转换方案。 | 明确扩展运行位置与浏览器位置，设计 WSL 到主机的路径转换及不可访问文件处理；跨 Windows/WSL 测试。 |
-| [#61 Open localhost URL](https://github.com/SudoKillMe/vscode-extensions-open-in-browser/issues/61) | 希望从本地文件打开 `http://localhost/project/mypage.php`，现有实现只取 `fsPath`，不会映射项目根路径或启动服务器。 | 定义工作区路径到 URL 的映射配置、端口和多工作区行为；若要自动起服务则另立功能边界。 |
-| [#68 Unsaved file](https://github.com/SudoKillMe/vscode-extensions-open-in-browser/issues/68) | 未保存文档没有可直接打开的磁盘路径；`currentPageUri()` 只把 URI 转为 `fsPath`。 | 设计临时文件生命周期、资源相对路径与清理策略，并提示临时预览的限制。 |
-| [#71 Remote SSH](https://github.com/SudoKillMe/vscode-extensions-open-in-browser/issues/71) | 远程文件在本机浏览器不可直接访问；[评论](https://github.com/SudoKillMe/vscode-extensions-open-in-browser/issues/71#issuecomment-799002651)指出容器也受影响。 | 设计远程文件传输/临时预览或已有 Web 服务 URL 的映射；和 #76 共用远程资源方案。 |
-| [#76 Docker/Remote Development](https://github.com/SudoKillMe/vscode-extensions-open-in-browser/issues/76) | 希望在宿主浏览器打开容器内 HTML，正文提议 `docker cp`；[评论](https://github.com/SudoKillMe/vscode-extensions-open-in-browser/issues/76#issuecomment-1243738803)也提及 WSL。 | 先确定宿主与容器中文件、相对资源和生命周期的语义，再选复制或 URL 转发方案；与 #53/#71 共用设计。 |
-| [#86 Pin window position](https://github.com/SudoKillMe/vscode-extensions-open-in-browser/issues/86) | 希望页面刷新后保留滚动位置；当前插件只启动外部浏览器，不控制页面刷新或其窗口状态。 | 需要明确是否引入预览/自动刷新能力及浏览器通信机制；属于新增产品能力，建议先讨论范围。 |
+| [#53 WSL support](https://github.com/SudoKillMe/vscode-extensions-open-in-browser/issues/53) | WSL 路径被 Windows 浏览器当作 Windows 路径打开；[评论](https://github.com/SudoKillMe/vscode-extensions-open-in-browser/issues/53#issuecomment-764733516)提供临时路径转换方案。 | 明确扩展运行位置与浏览器位置，设计 WSL 到主机的路径转换及不可访问文件处理；跨 Windows/WSL 测试。**Serve mode 明确拒绝 remoteName，且只监听所在机器的 127.0.0.1；目前未解决。** |
+| [#61 Open localhost URL](https://github.com/SudoKillMe/vscode-extensions-open-in-browser/issues/61) | 希望从本地文件打开 `http://localhost/project/mypage.php`，现有实现只取 `fsPath`，不会映射项目根路径或启动服务器。 | 定义工作区路径到 URL 的映射配置、端口和多工作区行为；若要自动起服务则另立功能边界。**Serve mode 已覆盖本地静态文件的 localhost URL，可配置根目录与端口；但拒绝 `.php`，不执行 PHP，也不会映射到用户已有的开发服务器。原 issue 示例仍未解决，属部分覆盖。** |
+| [#68 Unsaved file](https://github.com/SudoKillMe/vscode-extensions-open-in-browser/issues/68) | 未保存文档没有可直接打开的磁盘路径；`currentPageUri()` 只把 URI 转为 `fsPath`。 | 设计临时文件生命周期、资源相对路径与清理策略，并提示临时预览的限制。**Serve mode 要求已保存的本地文件；脏文档会要求先保存，未命名文档直接拒绝，故未解决。** |
+| [#71 Remote SSH](https://github.com/SudoKillMe/vscode-extensions-open-in-browser/issues/71) | 远程文件在本机浏览器不可直接访问；[评论](https://github.com/SudoKillMe/vscode-extensions-open-in-browser/issues/71#issuecomment-799002651)指出容器也受影响。 | 设计远程文件传输/临时预览或已有 Web 服务 URL 的映射；和 #76 共用远程资源方案。**Serve mode 目前禁用远程工作区；仍需远程服务与端口转发或资源传输，未解决。** |
+| [#76 Docker/Remote Development](https://github.com/SudoKillMe/vscode-extensions-open-in-browser/issues/76) | 希望在宿主浏览器打开容器内 HTML，正文提议 `docker cp`；[评论](https://github.com/SudoKillMe/vscode-extensions-open-in-browser/issues/76#issuecomment-1243738803)也提及 WSL。 | 先确定宿主与容器中文件、相对资源和生命周期的语义，再选复制或 URL 转发方案；与 #53/#71 共用设计。**Serve mode 不允许 remoteName，未提供容器到宿主的访问路径，未解决。** |
+| [#86 Pin window position](https://github.com/SudoKillMe/vscode-extensions-open-in-browser/issues/86) | 希望页面刷新后保留滚动位置；当前插件只启动外部浏览器，不控制页面刷新或其窗口状态。 | 需要明确是否引入预览/自动刷新能力及浏览器通信机制；属于新增产品能力，建议先讨论范围。**Serve mode 仅提供静态 HTTP 与打开浏览器，没有自动刷新或保留滚动位置，未解决。** |
+
+### Serve mode 加入后的复核（2026-09-28）
+
+新命令为已保存的**本地静态文件**启动按工作区或文件目录设根的 HTTP 服务，通过 `vscode.env.openExternal` 打开 `127.0.0.1` URL。它已具备 #61 所需的部分基础：本地 HTML、CSS、JS 等可以通过 HTTP 访问，并支持端口与根目录配置。但 #61 明确举出的 `mypage.php` 不能由静态服务器执行，也没有“本地文件路径 → 已有开发服务器 URL”的映射，因此本批次**没有可直接标记为完整解决的高难度 issue**。
+
+后续优先考虑为 #61 增加可配置的已有开发服务器 URL 映射，要求用户自行运行 PHP 等后端服务；这是最接近现有 serve mode 的增量。#53/#71/#76 可共用远程服务与端口转发设计，但当前实现显式禁止远程工作区，不能直接启用。#68 需要内存内容或临时快照及相对资源策略；#86 需要刷新与滚动位置机制，均超出现有静态服务。
+
+验证边界：`npm run compile` 通过；serve 命令、管理器和生命周期的替身测试通过。当前沙箱禁止绑定 `127.0.0.1`（`EPERM`），所以 HTTP 集成测试未在此环境完成。全套 `npm test` 在 macOS 测试应用启动步骤失败，不能据此宣称整套测试通过。上述判断来自当前未提交的 serve mode 工作区代码和 GitHub issue 正文/评论，**未发布，也未修改 GitHub issue 状态**。
 
 ## 待补充信息：先取得可区分根因的证据
 

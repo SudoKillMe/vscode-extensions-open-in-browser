@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.open = exports.defaultBrowser = exports.standardizedBrowserName = void 0;
 const config_1 = require("./config");
 const vscode = require("vscode");
 const child_process_1 = require("child_process");
@@ -10,7 +11,7 @@ const opn = require('opn');
  * get standardized browser name
  * @param name String
  */
-exports.standardizedBrowserName = (name = '') => {
+const standardizedBrowserName = (name = '') => {
     if ((process.platform === 'win32' ? path_1.win32 : path_1.posix).isAbsolute(name)) {
         return name;
     }
@@ -24,14 +25,16 @@ exports.standardizedBrowserName = (name = '') => {
     });
     return browser ? browser.standardName : '';
 };
+exports.standardizedBrowserName = standardizedBrowserName;
 /**
  * get default browser name
  */
-exports.defaultBrowser = () => {
+const defaultBrowser = () => {
     const config = vscode.workspace.getConfiguration(config_1.default.app);
     return config ? config.default : '';
 };
-exports.open = (path, browser = '') => {
+exports.defaultBrowser = defaultBrowser;
+const open = (path, browser = '') => {
     const configuredArgs = vscode.workspace.getConfiguration(config_1.default.app)
         .get('arguments', {});
     const key = browser && configuredArgs && Object.keys(configuredArgs)
@@ -56,4 +59,5 @@ exports.open = (path, browser = '') => {
         vscode.window.showErrorMessage(`Open browser failed!! Please check if you have installed the browser ${browser} correctly!`);
     });
 };
+exports.open = open;
 //# sourceMappingURL=util.js.map

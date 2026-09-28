@@ -1,6 +1,8 @@
 'use strict';
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.deactivate = exports.activate = void 0;
 const vscode = require("vscode");
+const serve_1 = require("./serve");
 const index_1 = require("./index");
 function activate(context) {
     let openDefaultCommand = vscode.commands.registerCommand('extension.openInDefaultBrowser', (path) => {
@@ -11,6 +13,7 @@ function activate(context) {
     });
     context.subscriptions.push(openDefaultCommand);
     context.subscriptions.push(openBySpecifyCommand);
+    serve_1.registerServeCommands(context);
 }
 exports.activate = activate;
 function deactivate() {
