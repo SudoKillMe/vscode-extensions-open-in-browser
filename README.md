@@ -98,6 +98,10 @@ The new keys are examples; choose keys that are free in your environment. Extens
 
 ## Troubleshooting
 
+### Opening a saved file manually
+
+Save the document to disk, then open it from the operating system's file manager to check its file association. This is a workaround and diagnostic step, not evidence that the extension is fixed (#70). If it works outside VS Code but fails through the extension, include the file path, selected browser, extension/VS Code/OS versions and Extension Host error in your report. Unsaved document preview is not supported.
+
 ### Firefox is not found on Windows
 
 First verify that Firefox is installed and can open the same saved file outside VS Code. If the `firefox` command cannot be resolved, set `open-in-browser.default` to the absolute path to `firefox.exe` and use **Open In Default Browser**. Alternatively, add the directory containing `firefox.exe` (not the executable itself) to your user `PATH`, then fully exit and restart VS Code so it inherits the updated environment. Do not replace the existing `PATH`. This only addresses command lookup, not permissions or every launch failure (issues #73/#74/#75).
