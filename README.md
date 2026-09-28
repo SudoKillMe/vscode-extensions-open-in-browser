@@ -59,6 +59,19 @@ Use `open-in-browser.arguments` to configure an array of arguments for a browser
 }
 ```
 
+For Chrome incognito windows, use:
+
+```json
+{
+  "open-in-browser.default": "chrome",
+  "open-in-browser.arguments": {
+    "chrome": ["--incognito"]
+  }
+}
+```
+
+This applies when opening with Chrome, including from the browser picker. It does not enable incognito mode for other browsers or the unconfigured system default application.
+
 ## Shortcuts
 
 |key|command|
