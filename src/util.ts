@@ -1,5 +1,6 @@
 import Config from './config';
 import * as vscode from 'vscode';
+import { spawn } from 'child_process';
 
 const opn = require('opn');
 
@@ -29,10 +30,17 @@ export const defaultBrowser = (): string => {
 };
 
 export const open = (path: string, browser: string = '') => {
-  // const name = browser ? browser : standardizedBrowserName(defaultBrowser());
-  // const name = standardizedBrowserName(browser);
-  opn(path, { app: browser })
-    .catch(_ => {
+  const launch = process.platform === 'darwin'
+    ? new Promise<void>((resolve, reject) => {
+        const args = browser ? ['-a', browser, path] : [path];
+        const child = spawn('/usr/bin/open', args);
+        child.once('error', reject);
+        child.once('close', code => code === 0 ? resolve()
+          : reject(new Error(`open exited with code ${code}`)));
+      })
+    : opn(path, { app: browser });
+  return launch.catch(error => {
+      console.error('[open-in-browser]', error);
       vscode.window.showErrorMessage(`Open browser failed!! Please check if you have installed the browser ${browser} correctly!`);
     });
 };
