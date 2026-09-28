@@ -26,6 +26,7 @@ if you configured the default browser, when you choose `open in Default Browser`
 
 you do not need to set `open-in-browser.default` a very accurate value, as long as the value matches any of the following terms, I will handle it:
 __*Chrome*__ values: *chrome*, *google chrome*, *google-chrome*, *gc*; on Linux, use *google-chrome-stable* if that is the installed command (for example on Arch/Manjaro).
+__*Chrome Canary*__ values: *canary*, *chrome canary*, *google chrome canary* (Mac/Windows; Windows uses the per-user installation under `%LOCALAPPDATA%`). Canary is not offered on Linux.
 __*Firefox*__ values: *firefox*, *mozilla firefox*, *ff* 
 __*IE*__ values: *ie*, *iexplore*
 __*Safari*__ values: *safari*

@@ -20,6 +20,14 @@ const chromeItem: PickItem = {
   acceptName: ['chrome', 'google chrome', 'google-chrome', 'gc', '谷歌浏览器']
 };
 
+const canaryItem: PickItem = {
+  description: "Windows, Mac",
+  label: "Google Chrome Canary",
+  standardName: platform === 'darwin' ? 'Google Chrome Canary'
+    : `${process.env.LOCALAPPDATA}\\Google\\Chrome SxS\\Application\\chrome.exe`,
+  acceptName: ['canary', 'chrome canary', 'google chrome canary']
+};
+
 const chromiumItem: PickItem = {
   description: "Mac, Linux",
   detail: "A fast, secure, and free web browser built for the modern web",
@@ -76,9 +84,11 @@ const operaItem: PickItem = {
 const browsers = [chromeItem, firefoxItem, operaItem];
 
 if (process.platform === 'win32') {
+  browsers.push(canaryItem);
   browsers.push(ieItem);
   browsers.push(edgeItem);
 } else if (process.platform === 'darwin') {
+  browsers.push(canaryItem);
   browsers.push(safariItem);
   browsers.push(chromiumItem);
   browsers.push(firefoxDeveloperItem);
