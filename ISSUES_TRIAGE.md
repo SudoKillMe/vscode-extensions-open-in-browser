@@ -11,7 +11,7 @@
 | 高 | 涉及跨系统路径、远程环境、临时文件、服务地址映射或扩展架构调整 | 8 |
 | 待补充信息 | 只有通用错误或现象，缺少区分根因所需的环境、操作步骤、日志；暂不宜承诺具体修复 | 14 |
 
-当前启动链路见 [`src/index.ts`](src/index.ts)、[`src/util.ts`](src/util.ts)：命令从编辑器或资源菜单取得 `fsPath`，经 `opn` 打开；失败时只显示统一错误文案，丢失底层异常。浏览器名称与平台列表写在 [`src/config.ts`](src/config.ts)；右键菜单限定 `resourceLangId == html`，快捷键写在 [`package.json`](package.json)。这些是下面工作量判断的主要代码依据。
+以下为修复前基线描述；本轮修复和验证结果见各行加粗标记及文末记录。原启动链路见 [`src/index.ts`](src/index.ts)、[`src/util.ts`](src/util.ts)：命令从编辑器或资源菜单取得 `fsPath`，经 `opn` 打开；失败时只显示统一错误文案，丢失底层异常。浏览器名称与平台列表写在 [`src/config.ts`](src/config.ts)；右键菜单限定 `resourceLangId == html`，快捷键写在 [`package.json`](package.json)。这些是下面工作量判断的主要代码依据。
 
 ## 问题类型索引
 
@@ -32,8 +32,8 @@
 | Issue | 概要与判断依据 | 建议方向 / 状态 |
 | --- | --- | --- |
 | [#29 Chrome Canary support](https://github.com/SudoKillMe/vscode-extensions-open-in-browser/issues/29) | 请求在浏览器列表加入 Canary；[评论](https://github.com/SudoKillMe/vscode-extensions-open-in-browser/issues/29#issuecomment-522851467)还提到开发版。列表集中定义于 `src/config.ts`。 | 查明各平台实际应用名并新增条目，做平台冒烟测试；范围小，但不同平台名称需确认。  **已增加 macOS/Windows Canary 条目，Linux 不提供 Canary；映射测试通过，安装与启动实机待验证；开发版不在本次范围；commit：`b9dd0ab`。** |
-| [#50 VS Code insiders support](https://github.com/SudoKillMe/vscode-extensions-open-in-browser/issues/50) | 询问能否安装到 Insiders，未提供安装错误。 | 先用 VS Code Insiders 安装 VSIX 验证；若可用，补文档并答复；若失败再记录具体兼容问题。**使用咨询，待验证。** |
-| [#56 Is this still being maintained?](https://github.com/SudoKillMe/vscode-extensions-open-in-browser/issues/56) | 维护状态询问；[后续评论](https://github.com/SudoKillMe/vscode-extensions-open-in-browser/issues/56#issuecomment-5842170723)提到旧 `vscode` 包安装 `vscode.d.ts` 失败。 | 答复维护计划。依赖安装问题已在本地 `codex/fix-vscode-install` 分支提交，仍需确认是否已进入 GitHub 默认分支或发布版。**非单独功能缺陷；部分修复待上游确认。** |
+| [#50 VS Code insiders support](https://github.com/SudoKillMe/vscode-extensions-open-in-browser/issues/50) | 询问能否安装到 Insiders，未提供安装错误。 | 先用 VS Code Insiders 安装 VSIX 验证；若可用，补文档并答复；若失败再记录具体兼容问题。**使用咨询，待验证。本轮未安装 VS Code Insiders（当前仅有稳定版），未宣称兼容验证通过，无新增修复 commit。** |
+| [#56 Is this still being maintained?](https://github.com/SudoKillMe/vscode-extensions-open-in-browser/issues/56) | 维护状态询问；[后续评论](https://github.com/SudoKillMe/vscode-extensions-open-in-browser/issues/56#issuecomment-5842170723)提到旧 `vscode` 包安装 `vscode.d.ts` 失败。 | 答复维护计划。依赖安装问题已在本地 `codex/fix-vscode-install` 分支提交，仍需确认是否已进入 GitHub 默认分支或发布版。**非单独功能缺陷；继承的安装修复 commit：`d5f582c`，本轮重新执行 `npm ci` 成功。是否合入上游/发布仍待确认，不代表已承诺维护计划。** |
 | [#59 Shortcut conflict](https://github.com/SudoKillMe/vscode-extensions-open-in-browser/issues/59) | `Alt+B` 与 GitLens 冲突；快捷键在 `package.json` 声明。 | 在 README 说明 VS Code 键盘快捷方式设置中可重绑命令，必要时重新评估默认绑定。与 #72 同组。  **已补充快捷键重绑、冲突排查和取消默认绑定示例；JSON 与命令 ID 测试通过，默认快捷键未改变；commit：`72d1fd5`。** |
 | [#72 How can I changed Key Shortcuts](https://github.com/SudoKillMe/vscode-extensions-open-in-browser/issues/72) | 询问如何改快捷键。 | 与 #59 共用文档和答复。**重复主题 / 使用咨询。**  **已补充快捷键重绑、冲突排查和取消默认绑定示例；JSON 与命令 ID 测试通过，默认快捷键未改变；commit：`72d1fd5`。** |
 | [#70 Open in browser failed!! FIX](https://github.com/SudoKillMe/vscode-extensions-open-in-browser/issues/70) | 正文只是手动保存 HTML 后从文件管理器打开的绕过方法，没有扩展内复现步骤。 | 可整理到 FAQ，明确这不能证明插件问题已修好。**解决办法分享，非独立修复项。**  **已整理手动保存/从文件管理器打开的诊断步骤；明确只是绕过方法，未宣称扩展故障修复；commit：`b8986fe`。** |
@@ -41,8 +41,8 @@
 | [#74 Firefox PATH workaround](https://github.com/SudoKillMe/vscode-extensions-open-in-browser/issues/74) | 与 #73 相同的 Firefox `PATH` 说明。 | **#73 的重复 issue**；建议保留一个入口。  **已整理 Windows Firefox PATH/绝对路径排障说明，强调重启 VS Code 和适用边界；重复报告共用文档提交，非通用故障修复；commit：`749e0f0`。** |
 | [#75 Firefox PATH workaround](https://github.com/SudoKillMe/vscode-extensions-open-in-browser/issues/75) | 与 #73、#74 相同的 Firefox `PATH` 说明。 | **#73 的重复 issue**；建议保留一个入口。  **已整理 Windows Firefox PATH/绝对路径排障说明，强调重启 VS Code 和适用边界；重复报告共用文档提交，非通用故障修复；commit：`749e0f0`。** |
 | [#98 已解决：Windows 浏览器找不到](https://github.com/SudoKillMe/vscode-extensions-open-in-browser/issues/98) | 作者描述其 Windows 内置管理员模式导致权限问题，恢复系统设置后已正常；[维护者评论](https://github.com/SudoKillMe/vscode-extensions-open-in-browser/issues/98#issuecomment-2458705525)谈及后续维护。 | 归档为排障案例，询问是否可关闭。**作者自称已解决，待确认；不能推断其他同类报错也由权限造成。**  **已归档为环境特定排障案例，未建议降低安全设置；仍需报告者确认关闭，非新增代码修复；commit：`a4dfa0e`。** |
-| [#100 F](https://github.com/SudoKillMe/vscode-extensions-open-in-browser/issues/100) | 无正文，无法识别问题。 | 请求具体操作和错误；若无补充，可作为无效报告处理。**不可执行。** |
-| [#102 new site](https://github.com/SudoKillMe/vscode-extensions-open-in-browser/issues/102) | 正文是 HTML 示例，没有扩展故障或功能请求。 | 请求说明与插件的关系；若无补充，可作为非项目问题处理。**不可执行。** |
+| [#100 F](https://github.com/SudoKillMe/vscode-extensions-open-in-browser/issues/100) | 无正文，无法识别问题。 | 请求具体操作和错误；若无补充，可作为无效报告处理。**不可执行；本轮不修改代码，无修复 commit，待报告者提供环境、复现步骤及错误信息。** |
+| [#102 new site](https://github.com/SudoKillMe/vscode-extensions-open-in-browser/issues/102) | 正文是 HTML 示例，没有扩展故障或功能请求。 | 请求说明与插件的关系；若无补充，可作为非项目问题处理。**不可执行；本轮不修改代码，无修复 commit，待报告者说明与插件的关系。** |
 
 ## 中：局部代码修改与平台验证
 
@@ -109,3 +109,17 @@
 5. **单独设计远程与新能力**：#53/#71/#76 共用远程资源方案；#61、#68、#86 各自需要明确产品边界。
 
 本文件只是本地调查和排期依据，尚未改动 GitHub issue 的状态或标签。
+
+## 本轮修复与测试记录
+
+- 分支：`fix/low-medium-issues`，从 `codex/fix-vscode-install` 的 `a4f7ed8` 创建。
+- 范围：仅处理低/中档问题。独立修复分别提交；同根因/重复 issue 共用一个提交。各行的 commit 为代码或文档处理提交，不表示 issue 已关闭，也不表示已经发布。
+- 29 条低/中档中，24 条有代码实现或文档处理；#56 引用继承的安装修复；#50、#99 待环境验证，#100、#102 缺少可执行信息。文档处理不等于原始故障已修复。
+- 菜单方案经用户确认：默认应用菜单面向所有本地文件，排除目录；指定浏览器菜单仍限 HTML；不改命令名称和默认快捷键。
+- `npm ci`：成功（仍有旧依赖的 deprecated 提示；本轮未做依赖升级）。
+- `npm test`：成功，包含 TypeScript 编译及 14 个测试文件。覆盖浏览器映射、绝对路径、参数数组、Linux 默认命令分发、底层异常保留、Windows PowerShell 脚本/参数引用和 URI 分发、macOS 启动器生命周期、菜单声明和 README JSON 示例。
+- macOS 实机集成：通过临时、无界面的 `.app` 测试夹具调用系统 `/usr/bin/open`；确认启动器先于应用退出，且含空格/特殊字符的启动参数保持完整。测试后清理临时文件。补充测试 commit：`1bddbd7`。
+- `git diff --check`：通过。
+- 验证边界：Windows/Linux 测试使用替身验证生成参数和调用，**不是实际桌面/浏览器验证**；菜单测试只检查声明，未运行 VS Code UI 集成测试；未安装/运行 Insiders、Canary、Brave、Firefox Developer Edition，未复现原报告的 Windows 7/Cent、Ubuntu 24.04、Arch/Manjaro 环境。macOS 夹具不等于真实浏览器启动验证。
+- #99 保留原错误到 Extension Host 日志并覆盖空/显式默认配置，但根因仍未确认，不能直接回复“已修复”。
+- 未推送、未发布、未修改 GitHub issue 状态或发送回复。
