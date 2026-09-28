@@ -14,10 +14,13 @@ module.exports = async () => {
         setImmediate(() => child.emit('close', 0));
         return child;
       } } }, 'win32');
-      await launcher.openWindows(target, browser);
+      const argumentsList = ['--profile=with spaces', 'a"b', 'ends\\', '', "$(not-code); O'Brien"];
+      await launcher.openWindows(target, browser, argumentsList);
       const literal = value => "'" + value.replace(/'/g, "''") + "'";
       assert.strictEqual(script, "$ErrorActionPreference = 'Stop'; Start-Process -FilePath " + literal(browser || target) +
-        (browser ? ' -ArgumentList ' + literal('"' + target + '"') : ''));
+        (browser ? ' -ArgumentList ' + literal([
+          '"--profile=with spaces"', '"a\\"b"', '"ends\\\\"', '""', '"$(not-code); O\'Brien"', '"' + target + '"'
+        ].join(' ')) : ''));
     }
   }
   for (const event of ['error', 'close']) {
