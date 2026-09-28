@@ -4,6 +4,9 @@ const vm = require('vm');
 const path = require('path');
 
 exports.load = (file, mocks = {}, platform = process.platform) => {
+  if (mocks.vscode) {
+    mocks.vscode = Object.assign({ workspace: { getConfiguration: () => ({ get: (key, fallback) => fallback }) } }, mocks.vscode);
+  }
   const module = { exports: {} };
   const filename = path.resolve(__dirname, '../out', file + '.js');
   const sandbox = {

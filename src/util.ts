@@ -35,16 +35,25 @@ export const defaultBrowser = (): string => {
 };
 
 export const open = (path: string, browser: string = '') => {
+  const configuredArgs = vscode.workspace.getConfiguration(Config.app)
+    .get<{ [name: string]: string[] }>('arguments', {});
+  const key = browser && configuredArgs && Object.keys(configuredArgs)
+    .find(name => standardizedBrowserName(name) === browser);
+  const appArgs = key && Array.isArray(configuredArgs[key])
+    && configuredArgs[key].every(value => typeof value === 'string') ? configuredArgs[key] : [];
   const launch = process.platform === 'darwin'
     ? new Promise<void>((resolve, reject) => {
         const args = browser ? ['-a', browser, path] : [path];
+        if (appArgs.length) {
+          args.push('--args', ...appArgs);
+        }
         const child = spawn('/usr/bin/open', args);
         child.once('error', reject);
         child.once('close', code => code === 0 ? resolve()
           : reject(new Error(`open exited with code ${code}`)));
       })
-    : (process.platform === 'win32' ? openWindows(browser ? vscode.Uri.file(path).toString() : path, browser)
-      : opn(path, { app: browser }));
+    : (process.platform === 'win32' ? openWindows(browser ? vscode.Uri.file(path).toString() : path, browser, appArgs)
+      : opn(path, { app: browser ? [browser, ...appArgs] : undefined }));
   return launch.catch(error => {
       console.error('[open-in-browser]', error);
       vscode.window.showErrorMessage(`Open browser failed!! Please check if you have installed the browser ${browser} correctly!`);

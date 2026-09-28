@@ -46,6 +46,19 @@ If another application intercepts `chrome`, or your browser is installed outside
 }
 ```
 
+### Browser arguments
+
+Use `open-in-browser.arguments` to configure an array of arguments for a browser alias (or an absolute path matching your configured browser). Each array element is one argument: keep spaces inside the string, and do not add shell quoting. Arguments apply to both commands when that browser is explicitly selected; they are ignored for the system default application and other browsers. Configure only one alias per browser. Existing browser instances may ignore startup-only flags.
+
+```json
+{
+  "open-in-browser.default": "chrome",
+  "open-in-browser.arguments": {
+    "chrome": ["--user-data-dir=/path/with spaces/profile"]
+  }
+}
+```
+
 ## Shortcuts
 
 |key|command|

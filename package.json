@@ -42,6 +42,15 @@
                     "type": "string",
                     "default": "",
                     "description": "Set default browser"
+                },
+                "open-in-browser.arguments": {
+                    "type": "object",
+                    "default": {},
+                    "additionalProperties": {
+                        "type": "array",
+                        "items": { "type": "string" }
+                    },
+                    "description": "Arguments by browser alias or absolute executable path. Applies only to an explicitly selected browser, not the system default application."
                 }
             }
         },
