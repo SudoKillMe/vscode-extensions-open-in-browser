@@ -2,6 +2,7 @@ import Config from './config';
 import * as vscode from 'vscode';
 import { spawn } from 'child_process';
 import { openWindows } from './windows';
+import { win32, posix } from 'path';
 
 const opn = require('opn');
 
@@ -10,6 +11,9 @@ const opn = require('opn');
  * @param name String
  */
 export const standardizedBrowserName = (name: string = ''): string => {
+  if ((process.platform === 'win32' ? win32 : posix).isAbsolute(name)) {
+    return name;
+  }
   let _name = name.toLowerCase();
   if (process.platform === 'linux' &&
       ['chromium-browser', 'google-chrome-stable'].indexOf(_name) !== -1) {

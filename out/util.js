@@ -4,12 +4,16 @@ const config_1 = require("./config");
 const vscode = require("vscode");
 const child_process_1 = require("child_process");
 const windows_1 = require("./windows");
+const path_1 = require("path");
 const opn = require('opn');
 /**
  * get standardized browser name
  * @param name String
  */
 exports.standardizedBrowserName = (name = '') => {
+    if ((process.platform === 'win32' ? path_1.win32 : path_1.posix).isAbsolute(name)) {
+        return name;
+    }
     let _name = name.toLowerCase();
     if (process.platform === 'linux' &&
         ['chromium-browser', 'google-chrome-stable'].indexOf(_name) !== -1) {

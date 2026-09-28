@@ -36,6 +36,16 @@ __*Chromium*__ values: *chromium* (Mac/Linux), *chromium-browser* (Linux distrib
 __*Firefox Developer Edition*__ values: *firefox developer*, *fde*, *firefox developer edition*
 __*Edge*__ values: *edge*, *msedge*, *microsoftedge*
 
+### Explicit browser paths
+
+If another application intercepts `chrome`, or your browser is installed outside the usual location, set `open-in-browser.default` to its absolute executable path. On macOS you can use the absolute `.app` path. This applies to **Open In Default Browser**; the browser picker still uses its built-in mappings. Do not put quotes or command-line arguments inside the path.
+
+```json
+{
+  "open-in-browser.default": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+}
+```
+
 ## Shortcuts
 
 |key|command|
