@@ -17,6 +17,8 @@ use `Alt + B` shortcut to open current *html* file in default browser, or `Shift
 you could also right click just like the picture:
 ![img](https://i.loli.net/2018/08/12/5b6fb8f378e8b.jpg)
 
+**Open In Default Browser** is available in context menus for all saved local files, including JSON, XML, Markdown and PSD. With an empty `open-in-browser.default`, the operating system chooses the associated application, which may not be a browser. Folders, unsaved documents and remote resources are excluded from this menu. **Open In Other Browsers** remains limited to HTML in context menus. These menu rules do not change the command-palette or shortcut commands.
+
 when you choose `open in Other Browsers`, a browser list will display, and you could choose one to open current file.
 ![img](https://i.loli.net/2018/08/12/5b6fb86934f8f.png)
 

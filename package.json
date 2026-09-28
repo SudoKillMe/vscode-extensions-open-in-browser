@@ -67,7 +67,7 @@
         "menus": {
             "explorer/context": [
                 {
-                    "when": "resourceLangId == html",
+                    "when": "resourceScheme == file && explorerResourceIsFolder != true",
                     "command": "extension.openInDefaultBrowser",
                     "group": "open-in-browser"
                 },
@@ -79,7 +79,7 @@
             ],
             "editor/context": [
                 {
-                    "when": "resourceLangId == html",
+                    "when": "resourceScheme == file && explorerResourceIsFolder != true",
                     "command": "extension.openInDefaultBrowser",
                     "group": "open-in-browser"
                 },
@@ -91,7 +91,7 @@
             ],
             "editor/title/context": [
                 {
-                    "when": "resourceLangId == html",
+                    "when": "resourceScheme == file && explorerResourceIsFolder != true",
                     "command": "extension.openInDefaultBrowser",
                     "group": "open-in-browser"
                 },
