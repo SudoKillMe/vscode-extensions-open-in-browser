@@ -4,7 +4,7 @@
 
 ## What's new?
 * rewrite the code with TypeScript, now it dependes on a tiny library [npm/opn](https://www.npmjs.com/package/opn)
-* support more browsers: **Chromium**(*Mac only*), **Firefox Developer Edition**(*Mac only*), **Edge**(*Windows only, __sometimes it won't work__*)
+* support more browsers: **Chromium**(*Mac and Linux*), **Firefox Developer Edition**(*Mac only*), **Edge**(*Windows only, __sometimes it won't work__*)
 * you can open *__any__* type of file with the default program, not only *__html__* file. 
 
 ## How it works?
@@ -30,7 +30,7 @@ __*Firefox*__ values: *firefox*, *mozilla firefox*, *ff*
 __*IE*__ values: *ie*, *iexplore*
 __*Safari*__ values: *safari*
 __*Opera*__ values: *opera*
-__*Chromium*__ values: *chromium*
+__*Chromium*__ values: *chromium* (Mac/Linux), *chromium-browser* (Linux distributions using that executable name)
 __*Firefox Developer Edition*__ values: *firefox developer*, *fde*, *firefox developer edition*
 __*Edge*__ values: *edge*, *msedge*, *microsoftedge*
 

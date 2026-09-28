@@ -9,6 +9,9 @@ const opn = require('opn');
  */
 exports.standardizedBrowserName = (name = '') => {
     let _name = name.toLowerCase();
+    if (process.platform === 'linux' && _name === 'chromium-browser') {
+        return _name;
+    }
     const browser = config_1.default.browsers.find(item => {
         return item.acceptName.indexOf(_name) !== -1;
     });

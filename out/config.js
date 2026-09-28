@@ -13,11 +13,11 @@ const chromeItem = {
     acceptName: ['chrome', 'google chrome', 'google-chrome', 'gc', '谷歌浏览器']
 };
 const chromiumItem = {
-    description: "Mac",
+    description: "Mac, Linux",
     detail: "A fast, secure, and free web browser built for the modern web",
     label: "Google Chromium",
-    standardName: "Chromium",
-    acceptName: ['chromium']
+    standardName: platform === 'darwin' ? 'Chromium' : 'chromium',
+    acceptName: ['chromium', 'chromium-browser']
 };
 const firefoxItem = {
     description: "Windows, Mac, Linux",
@@ -70,6 +70,9 @@ else if (process.platform === 'darwin') {
     browsers.push(safariItem);
     browsers.push(chromiumItem);
     browsers.push(firefoxDeveloperItem);
+}
+else if (process.platform === 'linux') {
+    browsers.push(chromiumItem);
 }
 exports.default = {
     browsers: browsers,
