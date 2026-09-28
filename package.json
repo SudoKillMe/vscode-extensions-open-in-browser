@@ -97,6 +97,7 @@
     "scripts": {
         "vscode:prepublish": "npm run compile",
         "compile": "tsc -p ./",
+        "test": "npm run compile && node test/run.js",
         "watch": "tsc -watch -p ./"
     },
     "devDependencies": {

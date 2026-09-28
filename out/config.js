@@ -30,7 +30,7 @@ const firefoxDeveloperItem = {
     description: "Mac",
     detail: "A fast, smart and personal web browser",
     label: "Mozilla Firefox Developer Edition",
-    standardName: "FirefoxDeveloperEdition",
+    standardName: "Firefox Developer Edition",
     acceptName: ['firefox developer', 'fde', 'firefox developer edition']
 };
 const ieItem = {
