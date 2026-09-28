@@ -81,6 +81,21 @@ This applies when opening with Chrome, including from the browser picker. It doe
 |`Alt + B`|open in default browser|
 |`Shift + Alt + B`|open in specified browser|
 
+To change a shortcut or resolve a conflict (for example with GitLens), run **Preferences: Open Keyboard Shortcuts** from the Command Palette. Search for `Open In Default Browser` or `Open In Other Browsers`, then edit the keybinding. Use **Show Same Keybindings** to find conflicting commands and remove or rebind the unwanted binding.
+
+You can also run **Preferences: Open Keyboard Shortcuts (JSON)** and add these entries to `keybindings.json` (not `settings.json`):
+
+```json
+[
+  { "key": "alt+b", "command": "-extension.openInDefaultBrowser" },
+  { "key": "shift+alt+b", "command": "-extension.openInSpecifyBrowser" },
+  { "key": "ctrl+alt+b", "command": "extension.openInDefaultBrowser" },
+  { "key": "ctrl+alt+shift+b", "command": "extension.openInSpecifyBrowser" }
+]
+```
+
+The new keys are examples; choose keys that are free in your environment. Extension defaults are unchanged.
+
 ## Changelog
 see [changelog](CHANGELOG.MD) for more infomation
 
