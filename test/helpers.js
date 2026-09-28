@@ -10,7 +10,7 @@ exports.load = (file, mocks = {}, platform = process.platform) => {
   const module = { exports: {} };
   const filename = path.resolve(__dirname, '../out', file + '.js');
   const sandbox = {
-    module, exports: module.exports, console, Buffer,
+    module, exports: module.exports, console: mocks.console || console, Buffer,
     process: { platform, env: process.env },
     require: name => Object.prototype.hasOwnProperty.call(mocks, name) ? mocks[name] : require(name.startsWith('.') ? path.resolve(path.dirname(filename), name) : name)
   };
