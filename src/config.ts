@@ -61,7 +61,7 @@ const edgeItem: PickItem = {
   description: "Windows",
   detail: "A modern browser aiming to replace ie",
   label: "Microsoft Edge",
-  standardName: "MicrosoftEdge",
+  standardName: "msedge",
   acceptName: ['edge', 'msedge', 'microsoftedge']
 };
 

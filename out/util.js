@@ -36,7 +36,7 @@ exports.open = (path, browser = '') => {
             child.once('close', code => code === 0 ? resolve()
                 : reject(new Error(`open exited with code ${code}`)));
         })
-        : (process.platform === 'win32' ? windows_1.openWindows(path, browser)
+        : (process.platform === 'win32' ? windows_1.openWindows(browser ? vscode.Uri.file(path).toString() : path, browser)
             : opn(path, { app: browser }));
     return launch.catch(error => {
         console.error('[open-in-browser]', error);
