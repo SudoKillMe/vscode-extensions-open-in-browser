@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const config_1 = require("./config");
 const vscode = require("vscode");
 const child_process_1 = require("child_process");
+const windows_1 = require("./windows");
 const opn = require('opn');
 /**
  * get standardized browser name
@@ -35,7 +36,8 @@ exports.open = (path, browser = '') => {
             child.once('close', code => code === 0 ? resolve()
                 : reject(new Error(`open exited with code ${code}`)));
         })
-        : opn(path, { app: browser });
+        : (process.platform === 'win32' ? windows_1.openWindows(path, browser)
+            : opn(path, { app: browser }));
     return launch.catch(error => {
         console.error('[open-in-browser]', error);
         vscode.window.showErrorMessage(`Open browser failed!! Please check if you have installed the browser ${browser} correctly!`);

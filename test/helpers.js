@@ -9,7 +9,7 @@ exports.load = (file, mocks = {}, platform = process.platform) => {
   const sandbox = {
     module, exports: module.exports, console, Buffer,
     process: { platform, env: process.env },
-    require: name => Object.prototype.hasOwnProperty.call(mocks, name) ? mocks[name] : require(name)
+    require: name => Object.prototype.hasOwnProperty.call(mocks, name) ? mocks[name] : require(name.startsWith('.') ? path.resolve(path.dirname(filename), name) : name)
   };
   vm.runInNewContext(fs.readFileSync(filename, 'utf8'), sandbox, { filename });
   return module.exports;

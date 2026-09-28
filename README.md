@@ -8,7 +8,7 @@
 * you can open *__any__* type of file with the default program, not only *__html__* file. 
 
 ## How it works?
-* on *win32* uses `start`
+* on *win32* uses Windows PowerShell `Start-Process`, with literal paths and individually quoted arguments (no `cmd /c start` parsing)
 * on *darwin* uses `open`
 * otherwise uses the `xdg-open` script from [freedesktop.org](https://portland.freedesktop.org/doc/xdg-open.html)
 

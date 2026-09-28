@@ -1,6 +1,7 @@
 import Config from './config';
 import * as vscode from 'vscode';
 import { spawn } from 'child_process';
+import { openWindows } from './windows';
 
 const opn = require('opn');
 
@@ -38,7 +39,8 @@ export const open = (path: string, browser: string = '') => {
         child.once('close', code => code === 0 ? resolve()
           : reject(new Error(`open exited with code ${code}`)));
       })
-    : opn(path, { app: browser });
+    : (process.platform === 'win32' ? openWindows(path, browser)
+      : opn(path, { app: browser }));
   return launch.catch(error => {
       console.error('[open-in-browser]', error);
       vscode.window.showErrorMessage(`Open browser failed!! Please check if you have installed the browser ${browser} correctly!`);
