@@ -68,7 +68,14 @@ const operaItem = {
     standardName: 'opera',
     acceptName: ['opera']
 };
-const browsers = [chromeItem, firefoxItem, operaItem];
+const braveItem = {
+    description: "Windows, Mac, Linux",
+    label: "Brave",
+    standardName: platform === 'darwin' ? 'Brave Browser'
+        : (platform === 'win32' ? 'brave' : 'brave-browser'),
+    acceptName: ['brave', 'brave browser', 'brave-browser']
+};
+const browsers = [chromeItem, firefoxItem, operaItem, braveItem];
 if (process.platform === 'win32') {
     browsers.push(canaryItem);
     browsers.push(ieItem);

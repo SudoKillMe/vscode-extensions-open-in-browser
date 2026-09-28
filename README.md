@@ -28,6 +28,7 @@ you do not need to set `open-in-browser.default` a very accurate value, as long 
 __*Chrome*__ values: *chrome*, *google chrome*, *google-chrome*, *gc*; on Linux, use *google-chrome-stable* if that is the installed command (for example on Arch/Manjaro).
 __*Chrome Canary*__ values: *canary*, *chrome canary*, *google chrome canary* (Mac/Windows; Windows uses the per-user installation under `%LOCALAPPDATA%`). Canary is not offered on Linux.
 __*Firefox*__ values: *firefox*, *mozilla firefox*, *ff* 
+__*Brave*__ values: *brave*, *brave browser*, *brave-browser*
 __*IE*__ values: *ie*, *iexplore*
 __*Safari*__ values: *safari*
 __*Opera*__ values: *opera*
