@@ -86,7 +86,7 @@ async function serve(root: string, port: number, request: http.IncomingMessage, 
     let pathname: string;
     try {
         pathname = decodeURIComponent(rawPath);
-    } catch (_) {
+    } catch {
         reply(response, 400, 'Invalid URL encoding');
         return;
     }

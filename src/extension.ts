@@ -8,10 +8,10 @@ import {
 
 export function activate(context: vscode.ExtensionContext) {
 
-    let openDefaultCommand = vscode.commands.registerCommand('extension.openInDefaultBrowser', (path) => {
+    const openDefaultCommand = vscode.commands.registerCommand('extension.openInDefaultBrowser', (path) => {
         openDefault(path);
     });
-    let openBySpecifyCommand = vscode.commands.registerCommand('extension.openInSpecifyBrowser', (path) => {
+    const openBySpecifyCommand = vscode.commands.registerCommand('extension.openInSpecifyBrowser', (path) => {
         openBySpecify(path);
     });
 

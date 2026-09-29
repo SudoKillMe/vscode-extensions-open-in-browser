@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.registerServeCommands = void 0;
+exports.registerServeCommands = registerServeCommands;
 const vscode = require("vscode");
 const path = require("path");
 const server_1 = require("./server");
@@ -138,5 +138,4 @@ function registerServeCommands(context) {
         servers.stopAll().catch(report);
     }));
 }
-exports.registerServeCommands = registerServeCommands;
 //# sourceMappingURL=serve.js.map

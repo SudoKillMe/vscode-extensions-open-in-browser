@@ -9,7 +9,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.LocalServers = exports.resolveEntry = void 0;
+exports.LocalServers = void 0;
+exports.resolveEntry = resolveEntry;
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
@@ -50,7 +51,6 @@ function resolveEntry(root, file) {
         }
     });
 }
-exports.resolveEntry = resolveEntry;
 function validateEntry(root, file) {
     return __awaiter(this, void 0, void 0, function* () {
         const absoluteRoot = path.resolve(root);
@@ -95,7 +95,7 @@ function serve(root, port, request, response) {
         try {
             pathname = decodeURIComponent(rawPath);
         }
-        catch (_) {
+        catch (_a) {
             reply(response, 400, 'Invalid URL encoding');
             return;
         }

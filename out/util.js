@@ -15,7 +15,7 @@ const builtInBrowserName = (name = '') => {
     if ((process.platform === 'win32' ? path_1.win32 : path_1.posix).isAbsolute(name)) {
         return name;
     }
-    let _name = name.toLowerCase();
+    const _name = name.toLowerCase();
     if (process.platform === 'linux' &&
         ['chromium-browser', 'google-chrome-stable'].indexOf(_name) !== -1) {
         return _name;
@@ -51,7 +51,7 @@ const standardizedBrowserName = (name = '') => {
     if (builtIn) {
         return builtIn;
     }
-    const browser = exports.browserItems().find(item => item.standardName === name
+    const browser = (0, exports.browserItems)().find(item => item.standardName === name
         || item.acceptName.indexOf(name) !== -1);
     return browser ? browser.standardName : '';
 };
@@ -68,7 +68,7 @@ const open = (path, browser = '') => {
     const configuredArgs = vscode.workspace.getConfiguration(config_1.default.app)
         .get('arguments', {});
     const key = browser && configuredArgs && Object.keys(configuredArgs)
-        .find(name => exports.standardizedBrowserName(name) === browser);
+        .find(name => (0, exports.standardizedBrowserName)(name) === browser);
     const appArgs = key && Array.isArray(configuredArgs[key])
         && configuredArgs[key].every(value => typeof value === 'string') ? configuredArgs[key] : [];
     const launch = process.platform === 'darwin'
@@ -79,12 +79,12 @@ const open = (path, browser = '') => {
             if (!executable && appArgs.length) {
                 args.push('--args', ...appArgs);
             }
-            const child = child_process_1.spawn(executable ? browser : '/usr/bin/open', args);
+            const child = (0, child_process_1.spawn)(executable ? browser : '/usr/bin/open', args);
             child.once('error', reject);
             child.once('close', code => code === 0 ? resolve()
                 : reject(new Error(`open exited with code ${code}`)));
         })
-        : (process.platform === 'win32' ? windows_1.openWindows(browser ? vscode.Uri.file(path).toString() : path, browser, appArgs)
+        : (process.platform === 'win32' ? (0, windows_1.openWindows)(browser ? vscode.Uri.file(path).toString() : path, browser, appArgs)
             : opn(path, { app: browser ? [browser, ...appArgs] : undefined }));
     return launch.catch(error => {
         console.error('[open-in-browser]', error);

@@ -23,15 +23,15 @@ const openDefault = (path) => {
         const _path = currentPageUri();
         uri = _path && _path.fsPath;
     }
-    const browser = util_1.standardizedBrowserName(util_1.defaultBrowser());
-    util_1.open(uri, browser);
+    const browser = (0, util_1.standardizedBrowserName)((0, util_1.defaultBrowser)());
+    (0, util_1.open)(uri, browser);
 };
 exports.openDefault = openDefault;
 /**
  * open specify browser
  */
 const openBySpecify = (path) => {
-    vscode.window.showQuickPick(util_1.browserItems()).then(item => {
+    vscode.window.showQuickPick((0, util_1.browserItems)()).then(item => {
         if (!item) {
             return;
         }
@@ -43,7 +43,7 @@ const openBySpecify = (path) => {
             const _path = currentPageUri();
             uri = _path && _path.fsPath;
         }
-        util_1.open(uri, item.standardName);
+        (0, util_1.open)(uri, item.standardName);
     });
 };
 exports.openBySpecify = openBySpecify;
