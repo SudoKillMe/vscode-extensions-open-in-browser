@@ -8,12 +8,12 @@ Use a keyboard shortcut, the Command Palette, or a context menu. Open a file dir
 
 - Open local files in their system-associated application or a configured browser.
 - Choose a browser for each launch with **Open In Other Browsers**.
-- Configure an absolute browser path for custom installations.
+- Add custom browsers to the picker with a display name and an application name or absolute executable path.
 - Set per-browser arguments, such as Chrome's `--incognito` flag.
 - Open non-HTML files, including JSON, XML, Markdown, and PSD, with their associated applications.
 - Serve local static pages over HTTP when a page needs a localhost URL or relative assets.
 
-Version 3.0 adds Serve Mode. The 2.1 series added browser mappings, arguments, broader default-application menus, and launch fixes. See the [changelog](CHANGELOG.md) for release details.
+Version 3.1 adds custom browsers and Microsoft Edge support on Windows, macOS, and Linux. Version 3.0 added Serve Mode. The 2.1 series added browser mappings, arguments, broader default-application menus, and launch fixes. See the [changelog](CHANGELOG.md) for release details.
 
 ## Quick start
 
@@ -99,7 +99,7 @@ Aliases are case-insensitive. These are built-in mappings, not a list of browser
 | Mozilla Firefox | Windows, macOS, Linux | `firefox`, `mozilla firefox`, `ff`, `火狐浏览器` |
 | Firefox Developer Edition | macOS | `firefox developer`, `firefox developer edition`, `fde` |
 | Brave | Windows, macOS, Linux | `brave`, `brave browser`, `brave-browser` |
-| Microsoft Edge (Chromium-based) | Windows | `edge`, `msedge`, `microsoftedge` |
+| Microsoft Edge (Chromium-based) | Windows, macOS, Linux | `edge`, `msedge`, `microsoftedge`, `microsoft edge`, `microsoft-edge` |
 | Internet Explorer (legacy) | Windows | `ie`, `iexplore` |
 | Safari | macOS | `safari` |
 | Opera | Windows, macOS, Linux | `opera` |
@@ -110,7 +110,63 @@ Platform notes:
 - **Linux Chromium:** choose `chromium` or `chromium-browser` to match your installed command. The picker uses `chromium`; the alternate command can be selected through the default-browser setting.
 - **Windows Canary:** the mapping uses `%LOCALAPPDATA%\Google\Chrome SxS\Application\chrome.exe`. Canary is not offered on Linux.
 - **Legacy browsers:** a mapping does not make a browser available on operating systems that no longer provide it.
-- An unrecognized alias falls back to the system-associated application. For an executable not covered by the aliases, use an absolute path.
+- **Microsoft Edge:** `edge` maps to `msedge` on Windows, `Microsoft Edge` on macOS, and `microsoft-edge` on Linux.
+- An unrecognized default-browser name falls back to the system-associated application unless registered as a custom browser. For other executables, register a custom browser or use an absolute path.
+
+### Custom browsers
+
+Add `open-in-browser.customBrowsers` to your **User Settings (JSON)** to append entries to **Open In Other Browsers**:
+
+```json
+{
+  "open-in-browser.customBrowsers": [
+    {
+      "displayName": "My Edge",
+      "name": "edge"
+    },
+    {
+      "displayName": "Firefox Nightly (Linux)",
+      "name": "firefox-nightly"
+    },
+    {
+      "displayName": "Portable Browser (Windows)",
+      "path": "D:\\Apps\\Browser\\browser.exe"
+    }
+  ]
+}
+```
+
+Keep only entries that apply to your machine and replace the example names and paths as needed. The extension does not install or automatically detect browsers.
+
+Each entry requires:
+
+- `displayName`: a non-empty label shown in the browser picker. It is not a launch command or a default-browser identifier.
+- Exactly one of `name` or `path`:
+  - `name`: a built-in alias, such as `edge`, or an OS application/command name. Built-in aliases use the platform mappings above; other names are passed through as written and must be accessible to the operating system. On macOS, use the application name, such as `Vivaldi`; on Linux, use its executable command, such as `vivaldi`.
+  - `path`: an absolute executable path. On macOS, both `.app` paths (for example, `/Applications/Microsoft Edge.app`) and actual executable paths (for example, `/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge`) are supported.
+
+This is a machine-specific user setting, not a workspace setting: do not put it in a project's `.vscode/settings.json`. Custom entries appear after the built-in browsers and do not replace them. Changes take effect the next time you open the picker, without reloading VS Code.
+
+Entries with missing or blank labels, both `name` and `path`, or relative paths are ignored. A valid entry whose application cannot be launched produces an error rather than opening the system default browser.
+
+Do not include shell quotes or arguments inside `name` or `path`. Use `open-in-browser.arguments` for arguments, keyed by the configured name or exact absolute path—not by `displayName`. You can also set `open-in-browser.default` to that name or path:
+
+```json
+{
+  "open-in-browser.customBrowsers": [
+    {
+      "displayName": "My Nightly",
+      "name": "firefox-nightly"
+    }
+  ],
+  "open-in-browser.default": "firefox-nightly",
+  "open-in-browser.arguments": {
+    "firefox-nightly": ["-private-window"]
+  }
+}
+```
+
+This example requires the `firefox-nightly` command to be installed and accessible. Custom browsers apply to direct-open commands; Serve Mode continues to use the system default browser.
 
 ### Absolute browser paths
 
@@ -130,7 +186,7 @@ This setting applies to **Open In Default Browser**. It does not replace the bro
 
 ### Browser arguments
 
-`open-in-browser.arguments` maps a browser alias—or an absolute path matching your configured browser—to an array of arguments.
+`open-in-browser.arguments` maps a browser alias, a registered custom browser name, or an absolute path matching your configured browser to an array of arguments.
 
 For Chrome incognito windows:
 
@@ -227,7 +283,7 @@ Remove private information from paths and logs before sharing them.
 | Platform | Launch mechanism |
 | --- | --- |
 | Windows | Windows PowerShell `Start-Process`, with literal paths and individually quoted arguments. Explicitly selected browsers receive an encoded file URI. |
-| macOS | `/usr/bin/open`, without waiting for the browser to exit. |
+| macOS | `/usr/bin/open` for application names and `.app` paths, without waiting for the browser to exit. Absolute executable paths are launched directly. |
 | Linux | `opn`, using the selected browser command or its bundled `xdg-open` script for the system default application. |
 
 ## Changelog

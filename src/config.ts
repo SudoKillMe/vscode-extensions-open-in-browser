@@ -58,11 +58,12 @@ const ieItem: PickItem = {
   acceptName: ['ie', 'iexplore']
 };
 const edgeItem: PickItem = {
-  description: "Windows",
-  detail: "A modern browser aiming to replace ie",
+  description: "Windows, Mac, Linux",
+  detail: "A modern web browser",
   label: "Microsoft Edge",
-  standardName: "msedge",
-  acceptName: ['edge', 'msedge', 'microsoftedge']
+  standardName: platform === 'darwin' ? 'Microsoft Edge'
+    : (platform === 'win32' ? 'msedge' : 'microsoft-edge'),
+  acceptName: ['edge', 'msedge', 'microsoftedge', 'microsoft edge', 'microsoft-edge']
 };
 
 const safariItem: PickItem = {
@@ -100,8 +101,10 @@ if (process.platform === 'win32') {
   browsers.push(safariItem);
   browsers.push(chromiumItem);
   browsers.push(firefoxDeveloperItem);
+  browsers.push(edgeItem);
 } else if (process.platform === 'linux') {
   browsers.push(chromiumItem);
+  browsers.push(edgeItem);
 }
 
 export default {

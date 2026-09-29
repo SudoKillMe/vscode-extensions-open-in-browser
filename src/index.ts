@@ -1,5 +1,4 @@
-import { open, defaultBrowser, standardizedBrowserName } from './util';
-import Config from './config';
+import { open, defaultBrowser, standardizedBrowserName, browserItems } from './util';
 import * as vscode from 'vscode';
 
 function currentPageUri () {
@@ -31,7 +30,7 @@ export const openDefault = (path: any): void => {
  */
 export const openBySpecify = (path: any): void => {
   vscode.window.showQuickPick(
-    Config.browsers
+    browserItems()
   ).then(item => {
     if (!item) {
       return;
