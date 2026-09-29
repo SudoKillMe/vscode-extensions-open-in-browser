@@ -1,5 +1,12 @@
 # Change Log
 
+## [3.1.0]
+
+### Added
+- Add configurable custom browsers to the browser picker using a display name and an application name or absolute executable path.
+- Support Microsoft Edge aliases in the browser picker on macOS and Linux as well as Windows.
+- Launch absolute executable paths directly on macOS, while continuing to support application names and `.app` paths.
+
 ## [3.0.0]
 
 ### Added

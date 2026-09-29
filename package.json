@@ -3,7 +3,7 @@
     "displayName": "open in browser",
     "description": "This allows you to open the current file in your default browser or application.",
     "icon": "images/icon.png",
-    "version": "3.0.0",
+    "version": "3.1.0",
     "publisher": "techer",
     "license": "MIT",
     "repository": "https://github.com/SudoKillMe/vscode-extensions-open-in-browser",
@@ -77,6 +77,26 @@
                     "default": "${workspaceFolder}",
                     "scope": "resource",
                     "description": "Static server root: ${workspaceFolder} uses the selected file's workspace folder (default); ${fileDirname} uses its directory and also works without a workspace. Both support a subpath, e.g. ${workspaceFolder}/public. Absolute paths are also supported; empty values, bare relative paths and other variables are rejected. All allowed static files under this root are accessible locally, not just the entry. Hidden files, backend scripts and links outside the root are blocked. Stop existing servers before changing roots to revoke old access."
+                },
+                "open-in-browser.customBrowsers": {
+                    "type": "array",
+                    "default": [],
+                    "scope": "machine",
+                    "description": "Custom browsers appended to the browser picker. User settings only. Specify displayName and exactly one of name (a built-in alias or OS application/command name) or path (an absolute executable path; macOS .app paths are also supported). Arguments belong in open-in-browser.arguments, not in name or path.",
+                    "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": ["displayName"],
+                        "properties": {
+                            "displayName": { "type": "string", "minLength": 1, "pattern": "\\S" },
+                            "name": { "type": "string", "minLength": 1, "pattern": "\\S" },
+                            "path": { "type": "string", "minLength": 1 }
+                        },
+                        "oneOf": [
+                            { "required": ["name"], "not": { "required": ["path"] } },
+                            { "required": ["path"], "not": { "required": ["name"] } }
+                        ]
+                    }
                 },
                 "open-in-browser.default": {
                     "type": "string",

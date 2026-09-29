@@ -24,7 +24,8 @@ module.exports = async () => {
   const script = path.join(root, 'browser.js');
   fs.writeFileSync(script, `require('fs').writeFileSync(${JSON.stringify(marker)}, JSON.stringify(process.argv.slice(2))); setTimeout(() => require('fs').writeFileSync(${JSON.stringify(done)}, 'done'), 1500);`);
   const quote = value => "'" + value.replace(/'/g, "'\\''") + "'";
-  fs.writeFileSync(path.join(contents, 'MacOS', 'browser'), `#!/bin/sh\nexec ${quote(process.execPath)} ${quote(script)} "$@"\n`, { mode: 0o755 });
+  const executable = path.join(contents, 'MacOS', 'browser');
+  fs.writeFileSync(executable, `#!/bin/sh\nexec ${quote(process.execPath)} ${quote(script)} "$@"\n`, { mode: 0o755 });
   const file = path.join(root, 'a & b - 文件.html');
   fs.writeFileSync(file, '<!doctype html><title>test</title>');
   const errors = [];
@@ -32,7 +33,7 @@ module.exports = async () => {
   const util = load('util', {
     './config': load('config'),
     vscode: {
-      workspace: { getConfiguration: () => ({ get: () => ({ [app]: args }) }) },
+      workspace: { getConfiguration: () => ({ get: () => ({ [app]: args, [executable]: args }) }) },
       window: { showErrorMessage: message => errors.push(message) }
     }
   });
@@ -44,6 +45,10 @@ module.exports = async () => {
     while (!fs.existsSync(done) && Date.now() < deadline) await new Promise(resolve => setTimeout(resolve, 50));
     assert.ok(fs.existsSync(done), 'fixture must finish');
     assert.deepStrictEqual(JSON.parse(fs.readFileSync(marker, 'utf8')), args);
+    fs.unlinkSync(marker);
+    await util.open(file, executable);
+    assert.deepStrictEqual(errors, []);
+    assert.deepStrictEqual(JSON.parse(fs.readFileSync(marker, 'utf8')), [...args, file]);
   } finally {
     fs.rmSync(root, { recursive: true, force: true });
   }

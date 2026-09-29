@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.openBySpecify = exports.openDefault = void 0;
 const util_1 = require("./util");
-const config_1 = require("./config");
 const vscode = require("vscode");
 function currentPageUri() {
     return vscode.window.activeTextEditor
@@ -32,7 +31,7 @@ exports.openDefault = openDefault;
  * open specify browser
  */
 const openBySpecify = (path) => {
-    vscode.window.showQuickPick(config_1.default.browsers).then(item => {
+    vscode.window.showQuickPick(util_1.browserItems()).then(item => {
         if (!item) {
             return;
         }
