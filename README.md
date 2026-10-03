@@ -286,6 +286,18 @@ Remove private information from paths and logs before sharing them.
 | macOS | `/usr/bin/open` for application names and `.app` paths, without waiting for the browser to exit. Absolute executable paths are launched directly. |
 | Linux | `opn`, using the selected browser command or its bundled `xdg-open` script for the system default application. |
 
+## Development
+
+Use Node.js 24 LTS (recommended). ESLint 10 requires Node.js `^20.19.0 || ^22.13.0 || >=24`; this requirement applies to development tooling, not to users installing the extension in VS Code.
+
+```sh
+npm ci
+npm run lint
+npm test
+```
+
+`npm test` compiles the TypeScript source and runs the automated tests. Run lint separately before submitting changes.
+
 ## Changelog
 
 See [CHANGELOG.md](CHANGELOG.md) for release notes.

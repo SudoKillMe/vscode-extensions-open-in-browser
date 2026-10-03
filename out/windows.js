@@ -14,7 +14,7 @@ const openWindows = (target, browser, args = []) => {
     const executable = (process.env.SystemRoot || 'C:\\Windows') +
         '\\System32\\WindowsPowerShell\\v1.0\\powershell.exe';
     return new Promise((resolve, reject) => {
-        const child = child_process_1.spawn(executable, ['-NoLogo', '-NoProfile', '-NonInteractive',
+        const child = (0, child_process_1.spawn)(executable, ['-NoLogo', '-NoProfile', '-NonInteractive',
             '-EncodedCommand', Buffer.from(script, 'utf16le').toString('base64')]);
         let stderr = '';
         child.stderr.on('data', data => { stderr += data.toString(); });

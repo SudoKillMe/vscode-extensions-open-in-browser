@@ -3,8 +3,7 @@ test/**
 ISSUES_TRIAGE.md
 tsconfig.json
 jsconfig.json
-tslint.json
-.eslintrc.json
+eslint.config.cjs
 .gitignore
 vsc-extension-quickstart.md
 out/**/*.map

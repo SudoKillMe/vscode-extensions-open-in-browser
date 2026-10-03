@@ -14,7 +14,7 @@ const builtInBrowserName = (name: string = ''): string => {
   if ((process.platform === 'win32' ? win32 : posix).isAbsolute(name)) {
     return name;
   }
-  let _name = name.toLowerCase();
+  const _name = name.toLowerCase();
   if (process.platform === 'linux' &&
       ['chromium-browser', 'google-chrome-stable'].indexOf(_name) !== -1) {
     return _name;
