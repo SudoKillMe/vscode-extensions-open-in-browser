@@ -197,6 +197,9 @@ function listen(root, preferredPort) {
         server.listen(preferredPort, '127.0.0.1');
     });
 }
+// Windows paths are case-insensitive, but fs.realpath keeps the input casing there,
+// so 'c:\dir' and 'C:\dir' would key two servers for one directory. Normalize the map key.
+const serverKey = (root) => process.platform === 'win32' ? root.toLowerCase() : root;
 class LocalServers {
     constructor() {
         this.servers = new Map();
@@ -214,31 +217,32 @@ class LocalServers {
             if (this.disposed || generation !== this.generation) {
                 throw new Error('Server startup was cancelled.');
             }
-            let pending = this.servers.get(entry.root);
+            const key = serverKey(entry.root);
+            let pending = this.servers.get(key);
             if (!pending) {
                 pending = listen(entry.root, port);
-                this.servers.set(entry.root, pending);
+                this.servers.set(key, pending);
             }
             let server;
             try {
                 server = yield pending;
             }
             catch (error) {
-                if (this.servers.get(entry.root) === pending) {
-                    this.servers.delete(entry.root);
+                if (this.servers.get(key) === pending) {
+                    this.servers.delete(key);
                 }
                 throw error;
             }
-            if (this.disposed || generation !== this.generation || this.servers.get(entry.root) !== pending) {
+            if (this.disposed || generation !== this.generation || this.servers.get(key) !== pending) {
                 throw new Error('Server startup was cancelled.');
             }
             const url = 'http://127.0.0.1:' + server.port + '/' + encodePath(entry.relative);
-            const info = this.active.get(entry.root);
+            const info = this.active.get(key);
             if (info) {
                 info.url = url;
             }
             else {
-                this.active.set(entry.root, { root: entry.root, port: server.port, url });
+                this.active.set(key, { root: entry.root, port: server.port, url });
             }
             return url;
         });
@@ -247,16 +251,17 @@ class LocalServers {
         return Array.from(this.active.values());
     }
     isRunning(info) {
-        return this.active.get(info.root) === info;
+        return this.active.get(serverKey(info.root)) === info;
     }
     stop(info) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!this.isRunning(info)) {
                 throw new Error('This server has already stopped. Open the server manager again to refresh the list.');
             }
-            const pending = this.servers.get(info.root);
-            this.active.delete(info.root);
-            this.servers.delete(info.root);
+            const key = serverKey(info.root);
+            const pending = this.servers.get(key);
+            this.active.delete(key);
+            this.servers.delete(key);
             yield (yield pending).close();
         });
     }

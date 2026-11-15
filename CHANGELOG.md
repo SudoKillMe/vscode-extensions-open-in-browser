@@ -1,5 +1,10 @@
 # Change Log
 
+## [Unreleased]
+
+### Fixed
+- Reuse one Serve Mode server per directory on Windows even when `serve.root` and the `${...}` variables differ in drive-letter casing, instead of starting a duplicate server on a second port (#116).
+
 ## [3.1.0]
 
 ### Added

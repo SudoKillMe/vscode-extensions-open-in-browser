@@ -64,6 +64,38 @@ module.exports = async () => {
     fourth.emit('listening');
     await disposedAssertion;
     assert(fourth.closed, 'deactivation closes even a pending server');
+
+    // Model Windows realpath preserving input casing on every test platform.
+    const caseServers = [];
+    const { LocalServers: WindowsLocalServers } = load('server', {
+      path: path.win32,
+      fs: {
+        realpath(file, callback) { callback(null, file); },
+        stat(file, callback) {
+          callback(null, { isDirectory: () => !file.endsWith('.html'), isFile: () => file.endsWith('.html') });
+        }
+      },
+      http: { createServer() {
+        const server = new FakeServer();
+        caseServers.push(server);
+        // Complete even an unexpected second listener so the assertions can fail.
+        process.nextTick(() => server.emit('listening'));
+        return server;
+      } }
+    }, 'win32');
+    const casing = new WindowsLocalServers();
+    try {
+      await casing.open('c:\\Serve', 'c:\\Serve\\index.html', 3333);
+      const variantUrl = await casing.open('C:\\sERVE', 'C:\\sERVE\\index.html', 3333);
+      assert.strictEqual(caseServers.length, 1, 'casing variant reuses the running server');
+      assert.strictEqual(variantUrl, 'http://127.0.0.1:54321/index.html');
+      assert.strictEqual(casing.list().length, 1, 'server manager lists the directory once');
+      await casing.stop(casing.list()[0]);
+      assert.strictEqual(casing.list().length, 0, 'stop works for a server opened with another casing');
+      assert(caseServers[0].closed, 'stop closes the reused listener');
+    } finally {
+      await casing.stopAll();
+    }
   } finally {
     await manager.stopAll();
     fs.rmSync(root, { recursive: true, force: true });
