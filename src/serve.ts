@@ -8,19 +8,23 @@ export function registerServeCommands(context: vscode.ExtensionContext): void {
         console.error('[open-in-browser serve]', error);
         vscode.window.showErrorMessage('Serve mode: ' + error.message);
     };
+    // The server always listens on the loopback of the machine that runs the
+    // extension host. In a remote workspace that is not the machine with the
+    // browser, so let VS Code forward the port and hand back a reachable URL.
+    const clientUri = async (url: string): Promise<vscode.Uri> => {
+        const parsed = vscode.Uri.parse(url);
+        return vscode.env.remoteName ? vscode.env.asExternalUri(parsed) : parsed;
+    };
     context.subscriptions.push(servers);
     context.subscriptions.push(vscode.commands.registerCommand('extension.openInBrowserServe', async (resource?: vscode.Uri) => {
         try {
             if (!vscode.workspace.isTrusted) {
                 throw new Error('Serve mode requires a trusted workspace.');
             }
-            if (vscode.env.remoteName) {
-                throw new Error('Serve mode currently supports local workspaces only.');
-            }
             const editor = vscode.window.activeTextEditor;
             const uri = resource || (editor && editor.document.uri);
             if (!uri || uri.scheme !== 'file') {
-                throw new Error('Select a saved local file. Remote and untitled resources are not supported.');
+                throw new Error('Select a saved file on disk. Untitled and virtual resources are not supported.');
             }
             const document = vscode.workspace.textDocuments.find(item => item.uri.toString() === uri.toString());
             if (document && document.isUntitled) {
@@ -52,7 +56,7 @@ export function registerServeCommands(context: vscode.ExtensionContext): void {
                 if (variable[1] === '${workspaceFolder}') {
                     const folder = vscode.workspace.getWorkspaceFolder(uri);
                     if (!folder || folder.uri.scheme !== 'file') {
-                        throw new Error('${workspaceFolder} requires a local workspace folder containing the selected file. Use ${fileDirname} for a standalone file. Selected file: ' + uri.fsPath);
+                        throw new Error('${workspaceFolder} requires a file workspace folder containing the selected file. Use ${fileDirname} for a standalone file. Selected file: ' + uri.fsPath);
                     }
                     base = folder.uri.fsPath;
                 }
@@ -64,7 +68,7 @@ export function registerServeCommands(context: vscode.ExtensionContext): void {
             }
             const url = await servers.open(root, uri.fsPath, port);
             // No browser override: an HTTP URL is opened in the system default browser.
-            if (!await vscode.env.openExternal(vscode.Uri.parse(url))) {
+            if (!await vscode.env.openExternal(await clientUri(url))) {
                 throw new Error('Could not open the system default browser. The server is still running at ' + url);
             }
         } catch (error) {
@@ -101,7 +105,7 @@ export function registerServeCommands(context: vscode.ExtensionContext): void {
             } else if (action === 'Copy URL') {
                 await vscode.env.clipboard.writeText(selected.server.url);
             } else if (action === 'Open in Browser') {
-                if (!await vscode.env.openExternal(vscode.Uri.parse(selected.server.url))) {
+                if (!await vscode.env.openExternal(await clientUri(selected.server.url))) {
                     throw new Error('Could not open the system default browser. The server is still running at ' + selected.server.url);
                 }
             }
