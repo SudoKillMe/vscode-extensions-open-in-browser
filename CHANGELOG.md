@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+### Added
+- Serve Mode now works in remote workspaces (WSL, SSH, Dev Containers). The server still listens on `127.0.0.1`, and the page is opened through `vscode.env.asExternalUri` so VS Code forwards the port to your local browser (#53, #71, #76).
+
 ### Fixed
 - Reuse one Serve Mode server per directory on Windows even when `serve.root` and the `${...}` variables differ in drive-letter casing, instead of starting a duplicate server on a second port (#116).
 

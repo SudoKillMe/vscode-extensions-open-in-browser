@@ -7,6 +7,7 @@ module.exports = async () => {
   const commands = {};
   const calls = [];
   const opened = [];
+  const forwards = [];
   const errors = [];
   const subscriptions = [];
   let stops = 0;
@@ -25,7 +26,11 @@ module.exports = async () => {
   let containingFolder = { uri: folder };
   const vscode = {
     Uri: { parse: value => ({ value }) },
-    env: { remoteName: undefined, openExternal: async target => { opened.push(target.value); return browserResult; } },
+    env: {
+      remoteName: undefined,
+      openExternal: async target => { opened.push(target.value); return browserResult; },
+      asExternalUri: async uri => { forwards.push(uri.value); return { value: 'forwarded:' + uri.value }; }
+    },
     workspace: {
       isTrusted: true,
       textDocuments: [],
@@ -95,7 +100,7 @@ module.exports = async () => {
   assert.deepStrictEqual(calls.pop(), [path.join(path.dirname(selected.fsPath), 'assets'), selected.fsPath, 3333]);
   root = '${workspaceFolder}';
   containingFolder = { uri: { scheme: 'vscode-remote' } };
-  await blocked(/local workspace folder/);
+  await blocked(/file workspace folder/);
   // Resolve from the selected file's owning folder, not the first workspace folder.
   containingFolder = { uri: uri('second-project') };
   root = '${workspaceFolder}/public';
@@ -114,13 +119,22 @@ module.exports = async () => {
   vscode.workspace.isTrusted = true;
   for (const remote of ['wsl', 'ssh-remote', 'dev-container']) {
     vscode.env.remoteName = remote;
-    await blocked(/local workspaces only/);
+    const beforeForwards = forwards.length;
+    await run(selected);
+    assert.deepStrictEqual(calls.pop(), [folder.fsPath, selected.fsPath, 3333]);
+    assert.strictEqual(forwards.length, beforeForwards + 1);
+    assert.strictEqual(forwards.pop(), 'http://127.0.0.1:2222/pages/selected.html');
+    assert.strictEqual(opened.pop(), 'forwarded:http://127.0.0.1:2222/pages/selected.html');
   }
   vscode.env.remoteName = undefined;
-  await blocked(/saved local file/, { scheme: 'vscode-remote' });
-  await blocked(/saved local file/, { scheme: 'untitled' });
+  const beforeLocalForwards = forwards.length;
+  await run(selected);
+  assert.strictEqual(forwards.length, beforeLocalForwards);
+  assert.strictEqual(opened.pop(), 'http://127.0.0.1:2222/pages/selected.html');
+  await blocked(/saved file on disk/, { scheme: 'vscode-remote' });
+  await blocked(/saved file on disk/, { scheme: 'untitled' });
   vscode.window.activeTextEditor = undefined;
-  await blocked(/saved local file/, null);
+  await blocked(/saved file on disk/, null);
   vscode.window.activeTextEditor = { document: { uri: active } };
   const dirtyDocument = { uri: selected, isDirty: true, async save() {
     saveCalls++;
@@ -164,16 +178,20 @@ module.exports = async () => {
 
   assert.strictEqual(manifest.engines.vscode, '^1.57.0');
   const contributed = manifest.contributes.commands.find(item => item.command === 'extension.openInBrowserServe');
-  assert.strictEqual(contributed.enablement, 'isWorkspaceTrusted && !remoteName');
+  assert.strictEqual(contributed.enablement, 'isWorkspaceTrusted');
   assert(manifest.activationEvents.includes('onCommand:extension.openInBrowserServe'));
   assert(manifest.activationEvents.includes('onCommand:extension.stopBrowserServers'));
   assert(manifest.activationEvents.includes('onCommand:extension.manageBrowserServers'));
   assert(manifest.contributes.commands.some(item => item.command === 'extension.manageBrowserServers'));
-  for (const menu of ['explorer/context', 'editor/context', 'editor/title/context']) {
+  const serveResources = 'resourceScheme =~ /^(file|vscode-remote)$/';
+  const serveMenus = {
+    'explorer/context': `${serveResources} && explorerResourceIsFolder != true && isWorkspaceTrusted`,
+    'editor/context': `${serveResources} && isWorkspaceTrusted`,
+    'editor/title/context': `${serveResources} && isWorkspaceTrusted`
+  };
+  for (const [menu, when] of Object.entries(serveMenus)) {
     const item = manifest.contributes.menus[menu].find(item => item.command === contributed.command);
-    assert(item.when.includes('resourceScheme == file'));
-    assert(item.when.includes('isWorkspaceTrusted'));
-    assert(item.when.includes('!remoteName'));
+    assert.strictEqual(item.when, when, menu);
   }
   const properties = manifest.contributes.configuration.properties;
   assert.strictEqual(properties['open-in-browser.serve.port'].default, 2222);

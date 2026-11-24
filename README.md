@@ -35,15 +35,17 @@ Commands appear in the Explorer, editor, and editor-tab context menus:
 
 - **Open In Default Browser** is available for local files of any type. Its menu entry excludes folders, unsaved documents, and remote resources.
 - **Open In Other Browsers** appears for resources whose language mode is HTML.
-- **Open in Browser - Serve Mode** appears for saved local files in trusted workspaces. It is unavailable in remote workspaces.
+- **Open in Browser - Serve Mode** appears for saved files in trusted workspaces, including remote workspaces such as WSL, SSH, and Dev Containers, where VS Code forwards the port to your local browser.
 
 With no browser configured, **Open In Default Browser** uses the operating system's file association. A PSD may open in an image editor, for example—not in a browser. If a browser is configured, the file is sent to that browser instead; not every file type can be displayed by a browser.
 
 ## Serve Mode
 
-Serve Mode starts a small HTTP server for local static files and opens the selected file at a `http://127.0.0.1:PORT/...` URL in your system default browser. Use it when a page needs HTTP or loads CSS, JavaScript, images, or other relative assets. The existing direct-open commands still work without starting a server.
+Serve Mode starts a small HTTP server for static files and opens the selected file at a `http://127.0.0.1:PORT/...` URL in your system default browser. Use it when a page needs HTTP or loads CSS, JavaScript, images, or other relative assets. The existing direct-open commands still work without starting a server.
 
-1. Open a trusted local workspace and save the file you want to view.
+In a remote workspace (WSL, SSH, Dev Containers) the server listens on the remote loopback and VS Code forwards the port, so the page opens in your local browser. The forwarded URL appears in the **Ports** panel; keep that tab open while the browser uses it.
+
+1. Open a trusted workspace, local or remote, and save the file you want to view.
 2. Run **Open in Browser - Serve Mode** from the Command Palette or a file's context menu.
 3. If the file has unsaved edits, choose **Save and Open** to save it first.
 4. When finished, run **Open in Browser - Stop All Local Servers**. Use **Open in Browser - Manage Local Servers** to reopen a URL, copy it, or stop one server.
@@ -61,7 +63,7 @@ Configure the root and port in your settings if needed:
 
 `serve.root` also accepts `${fileDirname}`, either variable followed by a subdirectory, or an absolute directory path. The selected file must be inside that root. Port `0` always chooses a free port. Changing these settings does not reconfigure an already running server; stop it and open the file again. The server listens only on `127.0.0.1`. It can serve allowed static files under its root, including files other than the selected page; hidden files, backend scripts, and symlinks outside the root are blocked.
 
-**Serve Mode is a lightweight static server, not a general development or production server.** It does not run PHP or other backend code, provide live reload, or support remote workspaces. Do not try to use it for complex services. If you need backend processing, advanced routing, build pipelines, or other special behavior, use a dedicated development-server extension or software instead.
+**Serve Mode is a lightweight static server, not a general development or production server.** It does not run PHP or other backend code or provide live reload. In a remote workspace the server runs on the remote host and is reached through VS Code port forwarding, so it stops being reachable when that session ends. Do not try to use it for complex services. If you need backend processing, advanced routing, build pipelines, or other special behavior, use a dedicated development-server extension or software instead.
 
 ## Configuration
 
@@ -275,7 +277,7 @@ Remove private information from paths and logs before sharing them.
 
 - **Direct open and lightweight Serve Mode.** Direct-open commands use file paths. Serve Mode provides localhost HTTP for static files; it does not map files to an existing development server, provide live reload, or run backend code. Use a dedicated server for more complex needs.
 - **Saved content only.** Unsaved-document preview is not supported; save edits before opening the file.
-- **Local Serve Mode only.** Serve Mode is disabled in SSH, containers, WSL, and other remote workspaces. Direct-open commands do not automatically make remote files accessible to a local browser.
+- **Serve Mode in remote workspaces.** Serve Mode runs on the workspace host and relies on VS Code port forwarding to reach the local browser. Direct-open commands still do not make remote files accessible to a local browser; use Serve Mode for those pages.
 - **Verification is platform-specific.** Automated tests cover mappings, parameters, and menu declarations; a macOS test application exercises LaunchServices. Windows/Linux browser launches, VS Code menu behavior, and Insiders installation still need desktop validation. The reported Ubuntu 24.04 default-browser failure has not been confirmed fixed.
 
 ## How launching works
