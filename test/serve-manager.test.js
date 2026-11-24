@@ -5,6 +5,7 @@ module.exports = async () => {
   const errors = [];
   const opened = [];
   const copied = [];
+  const forwarded = [];
   const stopped = [];
   const messages = [];
   let choices = [];
@@ -12,6 +13,7 @@ module.exports = async () => {
   let stale = false;
   let browserResult = true;
   const server = { root: '/project/pages', port: 2345, url: 'http://127.0.0.1:2345/subpages/test.html' };
+  const clientUrl = 'http://127.0.0.1:3456/subpages/test.html';
   class LocalServers {
     list() { return running; }
     isRunning(info) { return !stale && running.includes(info); }
@@ -20,9 +22,13 @@ module.exports = async () => {
   const vscode = {
     commands: { registerCommand(name, fn) { commands[name] = fn; return { dispose() {} }; } },
     workspace: { onDidChangeWorkspaceFolders() { return { dispose() {} }; } },
-    Uri: { parse: url => url },
+    Uri: { parse: url => new URL(url) },
     env: {
-      openExternal: async url => { opened.push(url); return browserResult; },
+      openExternal: async url => { opened.push(url.toString()); return browserResult; },
+      asExternalUri: async url => {
+        forwarded.push(url.toString());
+        return new URL(clientUrl);
+      },
       clipboard: { writeText: async url => { copied.push(url); } }
     },
     window: {
@@ -57,6 +63,13 @@ module.exports = async () => {
   choices = [0, 1];
   await manage();
   assert.deepStrictEqual(copied, [server.url]);
+  assert.deepStrictEqual(forwarded, []);
+  vscode.env.remoteName = 'ssh-remote';
+  choices = [0, 1];
+  await manage();
+  assert.deepStrictEqual(forwarded, [server.url]);
+  assert.deepStrictEqual(copied, [server.url, clientUrl]);
+  vscode.env.remoteName = undefined;
   choices = [0, 2];
   await manage();
   assert.deepStrictEqual(stopped, [server]);
@@ -71,7 +84,8 @@ module.exports = async () => {
     assert(errors.pop().includes('already stopped'));
   }
   assert.strictEqual(opened.length, 2);
-  assert.strictEqual(copied.length, 1);
+  assert.strictEqual(copied.length, 2);
+  assert.strictEqual(forwarded.length, 1);
   assert.strictEqual(stopped.length, 1);
   assert.strictEqual(errors.length, 0);
 };

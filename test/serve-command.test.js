@@ -183,11 +183,15 @@ module.exports = async () => {
   assert(manifest.activationEvents.includes('onCommand:extension.stopBrowserServers'));
   assert(manifest.activationEvents.includes('onCommand:extension.manageBrowserServers'));
   assert(manifest.contributes.commands.some(item => item.command === 'extension.manageBrowserServers'));
-  for (const menu of ['explorer/context', 'editor/context', 'editor/title/context']) {
+  const serveResources = 'resourceScheme =~ /^(file|vscode-remote)$/';
+  const serveMenus = {
+    'explorer/context': `${serveResources} && explorerResourceIsFolder != true && isWorkspaceTrusted`,
+    'editor/context': `${serveResources} && isWorkspaceTrusted`,
+    'editor/title/context': `${serveResources} && isWorkspaceTrusted`
+  };
+  for (const [menu, when] of Object.entries(serveMenus)) {
     const item = manifest.contributes.menus[menu].find(item => item.command === contributed.command);
-    assert(item.when.includes('resourceScheme == file'));
-    assert(item.when.includes('isWorkspaceTrusted'));
-    assert(!item.when.includes('remoteName'));
+    assert.strictEqual(item.when, when, menu);
   }
   const properties = manifest.contributes.configuration.properties;
   assert.strictEqual(properties['open-in-browser.serve.port'].default, 2222);
