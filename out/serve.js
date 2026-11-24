@@ -117,7 +117,8 @@ function registerServeCommands(context) {
                 yield servers.stop(selected.server);
             }
             else if (action === 'Copy URL') {
-                yield vscode.env.clipboard.writeText(selected.server.url);
+                const url = yield clientUri(selected.server.url);
+                yield vscode.env.clipboard.writeText(url.toString());
             }
             else if (action === 'Open in Browser') {
                 if (!(yield vscode.env.openExternal(yield clientUri(selected.server.url)))) {

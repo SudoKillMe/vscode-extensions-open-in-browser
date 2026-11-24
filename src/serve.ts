@@ -103,7 +103,8 @@ export function registerServeCommands(context: vscode.ExtensionContext): void {
             if (action === 'Stop Server') {
                 await servers.stop(selected.server);
             } else if (action === 'Copy URL') {
-                await vscode.env.clipboard.writeText(selected.server.url);
+                const url = await clientUri(selected.server.url);
+                await vscode.env.clipboard.writeText(url.toString());
             } else if (action === 'Open in Browser') {
                 if (!await vscode.env.openExternal(await clientUri(selected.server.url))) {
                     throw new Error('Could not open the system default browser. The server is still running at ' + selected.server.url);
